@@ -1,6 +1,6 @@
 /** Papéis no clube e o que cada um pode fazer. Espelha as políticas RLS do banco. */
 
-export const CLUB_ROLES = ['owner', 'manager', 'cashier', 'director', 'dealer'] as const;
+export const CLUB_ROLES = ['owner', 'manager', 'cashier', 'director', 'dealer', 'waiter'] as const;
 
 export type ClubRole = (typeof CLUB_ROLES)[number];
 
@@ -10,6 +10,7 @@ export const ROLE_LABELS: Record<ClubRole, string> = {
   cashier: 'Caixa',
   director: 'Diretor de torneio',
   dealer: 'Dealer',
+  waiter: 'Garçom',
 };
 
 export function isClubRole(value: unknown): value is ClubRole {

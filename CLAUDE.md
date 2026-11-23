@@ -98,7 +98,7 @@ Módulos (`features/`): `auth`, `clubs`, `players`, `ledger` (conta do jogador),
    com testes unitários cobrindo os casos do `PLAN.md`.
 9. **Auditoria:** gatilho genérico grava INSERT/UPDATE/DELETE em `audit_log`
    (antes/depois, usuário, clube). Toda ação sensível aparece no Log.
-10. **Permissões por papel no clube:** `owner`, `manager`, `cashier`, `dealer`/`director`,
+10. **Permissões por papel no clube:** `owner`, `manager`, `cashier`, `director`, `dealer`, `waiter` (garçom),
     checadas na RLS e na UI.
 11. **Segredos:** só a `anon key` no frontend (via `.env`, `VITE_SUPABASE_*`).
     `service_role` apenas em Edge Functions/scripts, nunca no repositório.
