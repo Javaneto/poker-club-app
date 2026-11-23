@@ -193,7 +193,7 @@ isOneToOne: true
                            }
           }
           Enums: {
-            "club_role": "owner"|"manager"|"cashier"|"director"|"dealer"
+            "club_role": "owner"|"manager"|"cashier"|"director"|"dealer"|"waiter"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -313,7 +313,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "club_role": ["owner", "manager", "cashier", "director", "dealer"]
+            "club_role": ["owner", "manager", "cashier", "director", "dealer", "waiter"]
           }
         }
 } as const

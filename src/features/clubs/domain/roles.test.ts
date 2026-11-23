@@ -30,6 +30,7 @@ describe('papéis do clube', () => {
     ['cashier', false, false, false],
     ['director', false, false, false],
     ['dealer', false, false, false],
+    ['waiter', false, false, false],
   ] as const)('%s: gerencia membros=%s, edita clube=%s, vê log=%s', (role, members, edit, log) => {
     expect(canManageMembers(role)).toBe(members);
     expect(canEditClub(role)).toBe(edit);

@@ -117,6 +117,7 @@ negativo = jogador deve ao clube):
 ### Clubes e contas
 
 - Qualquer pessoa cadastrada pode criar um clube e vira `owner` dele.
+- Papéis: dono (`owner`), gerente (`manager`), caixa (`cashier`), diretor de torneio (`director`), dealer (`dealer`) e garçom (`waiter`). O garçom vai operar o Bar (comandas) na Fase 13.
 - Futuro (Fase 15): ativação/bloqueio do clube pela plataforma, por liberação ou pagamento.
 
 ### Auditoria
