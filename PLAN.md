@@ -119,7 +119,7 @@ negativo = jogador deve ao clube):
 ---
 
 ## Fase 0 — Decisões e preparação
-- [ ] Criar repositório novo (ex.: `poker-club-app`) e copiar `CLAUDE.md` e `PLAN.md`.
+- [x] Criar repositório novo (ex.: `poker-club-app`) e copiar `CLAUDE.md` e `PLAN.md`.
 - [ ] Criar projetos Supabase `dev` e `prod` (novos, separados do legado).
 - [ ] Exportar o esquema e uma cópia dos dados do banco legado para `scripts/migrate-legacy/fixtures/`.
 - [ ] Levantar com o cliente os números de 3 sessões reais (cash e torneio) para usar como casos de teste.
