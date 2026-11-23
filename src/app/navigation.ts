@@ -12,6 +12,12 @@ export interface NavItem {
 export const NAV_ITEMS: readonly NavItem[] = [
   { to: '/', label: 'Início', icon: '🏠' },
   { to: '/movimentacoes', label: 'Em aberto', icon: '🎲' },
+  {
+    to: '/mesas',
+    label: 'Cash',
+    icon: '♠️',
+    roles: ['owner', 'manager', 'cashier', 'director', 'dealer'],
+  },
   { to: '/caixa', label: 'Caixa', icon: '💰', roles: ['owner', 'manager', 'cashier'] },
   { to: '/jogadores', label: 'Jogadores', icon: '🃏' },
   { to: '/desfazer', label: 'Desfazer', icon: '↩️' },

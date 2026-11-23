@@ -11,6 +11,8 @@ import { AcceptInvitePage } from '@/features/clubs/components/AcceptInvitePage';
 import { CreateClubPage } from '@/features/clubs/components/CreateClubPage';
 import { CashRegisterPage } from '@/features/cash-register/components/CashRegisterPage';
 import { CashReportPage } from '@/features/cash-register/components/CashReportPage';
+import { CashTablePage } from '@/features/cash-game/components/CashTablePage';
+import { CashTablesPage } from '@/features/cash-game/components/CashTablesPage';
 import { MembersPage } from '@/features/clubs/components/MembersPage';
 import { SettingsPage } from '@/features/settings/components/SettingsPage';
 import { OpenMovementsPage } from '@/features/ledger/components/OpenMovementsPage';
@@ -65,6 +67,8 @@ const router = createBrowserRouter([
               { path: '/jogadores/:playerId/editar', element: <EditPlayerPage /> },
               { path: '/movimentacoes', element: <OpenMovementsPage /> },
               { path: '/desfazer', element: <UndoCenterPage /> },
+              { path: '/mesas', element: <CashTablesPage /> },
+              { path: '/mesas/:tableId', element: <CashTablePage /> },
               { path: '/caixa', element: <CashRegisterPage /> },
               { path: '/equipe', element: <MembersPage /> },
               { path: '/configuracoes', element: <SettingsPage /> },

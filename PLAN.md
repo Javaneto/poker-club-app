@@ -231,10 +231,10 @@ negativo = jogador deve ao clube):
 
 ## Fase 7 — Cash game
 
-- [ ] Migration `cash_tables` (+ rake, capilé, despesas como lançamentos da mesa).
-- [ ] Abrir mesa, sentar jogador, compras/devoluções (usam o ledger), tempo de mesa.
-- [ ] Conferência de fichas e encerramento (só com 0 e sem jogadores).
-- [ ] Tela de mesa otimizada para celular.
+- [x] Migration `cash_tables` (+ rake, capilé, despesas como lançamentos da mesa).
+- [x] Abrir mesa, sentar jogador, compras/devoluções (usam o ledger), tempo de mesa.
+- [x] Conferência de fichas e encerramento (só com 0 e sem jogadores).
+- [x] Tela de mesa otimizada para celular.
 
 ## Fase 8 — Torneios: cadastro e inscrições
 
