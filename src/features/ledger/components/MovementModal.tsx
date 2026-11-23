@@ -8,12 +8,8 @@ import { Modal } from '@/components/ui/Modal';
 import { Select } from '@/components/ui/Select';
 import { toast } from '@/components/ui/toastStore';
 import { useRecordMovement } from '../api/useLedger';
-import {
-  ENTRY_KIND_LABELS,
-  PAYMENT_METHOD_LABELS,
-  PAYMENT_METHODS,
-  requiresPaymentMethod,
-} from '../domain/result';
+import { usePaymentMethods } from '@/features/cash-register/api/useCash';
+import { ENTRY_KIND_LABELS, requiresPaymentMethod } from '../domain/result';
 import {
   ENTRY_FORM_KINDS,
   entryFormSchema,
@@ -25,10 +21,6 @@ import {
 const KIND_OPTIONS = ENTRY_FORM_KINDS.map((kind) => ({
   value: kind,
   label: kind === 'bar_charge' ? 'Bar (fiado)' : ENTRY_KIND_LABELS[kind],
-}));
-const METHOD_OPTIONS = PAYMENT_METHODS.map((method) => ({
-  value: method,
-  label: PAYMENT_METHOD_LABELS[method],
 }));
 
 export interface MovementModalProps {
@@ -46,6 +38,10 @@ export function MovementModal({
   onClose,
 }: MovementModalProps) {
   const record = useRecordMovement(clubId);
+  const methods = usePaymentMethods(clubId);
+  const methodOptions = (methods.data ?? [])
+    .filter((method) => method.active)
+    .map((method) => ({ value: method.id, label: method.name }));
   const navigate = useNavigate();
   const form = useForm<EntryFormInput, unknown, EntryFormData>({
     resolver: zodResolver(entryFormSchema),
@@ -53,7 +49,7 @@ export function MovementModal({
       kind: defaultKind,
       amount: '',
       paidUpfront: false,
-      paymentMethod: '',
+      paymentMethodId: '',
       note: '',
     },
   });
@@ -68,7 +64,7 @@ export function MovementModal({
         kind: defaultKind,
         amount: '',
         paidUpfront: false,
-        paymentMethod: '',
+        paymentMethodId: '',
         note: '',
       });
   }, [player, defaultKind, form]);
@@ -118,9 +114,9 @@ export function MovementModal({
           <Select
             label="Forma de pagamento"
             placeholder="Selecione"
-            options={METHOD_OPTIONS}
-            error={errors.paymentMethod?.message}
-            {...form.register('paymentMethod')}
+            options={methodOptions}
+            error={errors.paymentMethodId?.message}
+            {...form.register('paymentMethodId')}
           />
         )}
         <Input
