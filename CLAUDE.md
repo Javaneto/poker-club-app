@@ -60,7 +60,6 @@ supabase/
   migrations/     # SQL versionado (única forma de mudar o banco)
   seed.sql        # dados de desenvolvimento
   tests/          # testes de RLS e funções
-scripts/migrate-legacy/  # importação do banco antigo
 ```
 Módulos (`features/`): `auth`, `clubs`, `players`, `ledger` (conta do jogador),
 `cash-register` (caixa do dia), `cash-game`, `tournaments`, `clock`, `blinds`,

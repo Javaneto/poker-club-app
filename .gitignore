@@ -9,8 +9,3 @@ playwright-report/
 test-results/
 supabase/.temp/
 supabase/.branches/
-
-# dados do banco legado (dados pessoais) — só o esquema é versionado
-scripts/migrate-legacy/fixtures/*
-!scripts/migrate-legacy/fixtures/schema.sql
-!scripts/migrate-legacy/fixtures/.gitkeep

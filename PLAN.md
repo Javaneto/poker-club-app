@@ -1,7 +1,7 @@
 # PLAN.md — Reconstrução do sistema de gestão de clube de poker
 
 Decisões tomadas: **Vite + React + TypeScript + Supabase**, **multi-clube desde o início**,
-**banco novo com migração dos dados do legado**, **conta única do jogador + Caixa do Dia**.
+**banco novo, começando do zero (sem migrar dados do legado)**, **conta única do jogador + Caixa do Dia**.
 Regras de arquitetura e comandos: ver `CLAUDE.md`.
 
 ---
@@ -121,7 +121,6 @@ negativo = jogador deve ao clube):
 ## Fase 0 — Decisões e preparação
 - [x] Criar repositório novo (ex.: `poker-club-app`) e copiar `CLAUDE.md` e `PLAN.md`.
 - [ ] Criar projetos Supabase `dev` e `prod` (novos, separados do legado).
-- [ ] Exportar o esquema e uma cópia dos dados do banco legado para `scripts/migrate-legacy/fixtures/`.
 - [ ] Levantar com o cliente os números de 3 sessões reais (cash e torneio) para usar como casos de teste.
 
 ## Fase 1 — Setup do projeto
@@ -220,12 +219,9 @@ negativo = jogador deve ao clube):
 - [ ] Catálogo com estoque mínimo e margem; comanda por jogador; fechar (caixa ou fiado no ledger).
 - [ ] Relatório do bar.
 
-## Fase 14 — Migração do legado e corte
-- [ ] Script `scripts/migrate-legacy`: jogadores (deduplicar por nome/CPF) → `players`.
-- [ ] Movimentações → `ledger_entries` mapeando tipos (`Entrada`, `Saída`, `Pagamento`, `Registro`, `Rebuy`, `Add-on`, `pago`, `sessao_finalizada_em` → sessões); valores para centavos.
-- [ ] Torneios, valores, estruturas de blinds/premiação, classificações e rankings.
-- [ ] Relatório de conferência: saldo de cada jogador no legado = saldo no novo (diferença zero).
-- [ ] Ensaio de migração em `dev`, validação com o cliente, migração final em `prod`, legado em modo somente leitura.
+## Fase 14 — Implantação
+- [ ] Clube cadastra jogadores e saldos iniciais no sistema novo (sem migração do legado).
+- [ ] Ensaio em `dev` com o cliente, publicação em `prod`, legado desligado.
 
 ## Fase 15 — Polimento e SaaS
 - [ ] Testes E2E dos fluxos críticos (cash completo, torneio completo, fechamento de caixa).
