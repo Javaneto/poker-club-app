@@ -175,15 +175,16 @@ negativo = jogador deve ao clube):
 
 ## Fase 4 — Jogadores
 
-- [ ] Migration `players` (+ índices únicos por clube em nome normalizado e CPF).
-- [ ] Lista com busca (nome, apelido, telefone, CPF), filtros (em jogo, devendo, crédito, inativos), ordenação, paginação.
-- [ ] Cadastro/edição com validação Zod; inativar/reativar; excluir só sem lançamentos (RPC).
-- [ ] Ficha do jogador: dados, saldo geral, saldo em aberto, histórico paginado.
-- [ ] Aniversariantes dos próximos 30 dias.
-- [ ] Testes de componentes e de RLS.
+- [x] Migration `players` (+ índices únicos por clube em nome normalizado e CPF).
+- [x] Lista com busca (nome, apelido, telefone, CPF), filtro ativos/inativos, ordenação, paginação. Filtros por saldo (em jogo, devendo, crédito) entram na Fase 5, com o ledger.
+- [x] Cadastro/edição com validação Zod; inativar/reativar; excluir por RPC (dono/gerente). A checagem "só sem lançamentos" entra na Fase 5.
+- [x] Ficha do jogador: dados e contato. Saldo geral, saldo em aberto e histórico entram na Fase 5.
+- [x] Aniversariantes dos próximos 30 dias.
+- [x] Testes de componentes e de RLS.
 
 ## Fase 5 — Conta do jogador (ledger) e sessões
 
+- [ ] Fase 4 pendente: filtros por saldo na lista de jogadores, saldo/histórico na ficha e `delete_player` recusar quem tem lançamentos.
 - [ ] Migration `ledger_entries` (player_id, kind enum, amount_cents, paid_upfront, payment_method, cash_session_id, tournament_id, table_id, session_id, reverses_id, note, created_by).
 - [ ] `player_sessions` (aberta/finalizada, finalizada em/por, reaberta).
 - [ ] `domain/result.ts`: cálculo do resultado com testes reproduzindo o legado.
