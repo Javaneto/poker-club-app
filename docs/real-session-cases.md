@@ -10,7 +10,7 @@ Cada caso vira teste unitário em `features/*/domain`.
 - Rake total: · Capilé: · Despesas da mesa:
 
 | Jogador | Compras (soma) | Devolução final | Pago antecipado? | Forma de pagamento | Resultado esperado |
-|---------|----------------|-----------------|------------------|--------------------|--------------------|
+| ------- | -------------- | --------------- | ---------------- | ------------------ | ------------------ |
 |         |                |                 |                  |                    |                    |
 
 - Fechamento do caixa: abertura · entradas · sangrias · contado · diferença:
@@ -22,7 +22,7 @@ Cada caso vira teste unitário em `features/*/domain`.
 - Prize pool final · % de premiação por posição · arredondamento usado:
 
 | Posição | Jogador | Prêmio pago | Pontos de ranking |
-|---------|---------|-------------|-------------------|
+| ------- | ------- | ----------- | ----------------- |
 |         |         |             |                   |
 
 ## Caso 3 — (cash ou torneio, com acordo/estorno/pagamento parcial se possível)
