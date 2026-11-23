@@ -31,12 +31,15 @@ set local role authenticated;
 -- ======================= Caixa opera a noite =======================
 select set_config('request.jwt.claims', '{"sub": "22222222-2222-4222-8222-222222222222", "role": "authenticated"}', true);
 
+-- Caixa aberto (Fase 6): lançamentos com dinheiro exigem caixa.
+select public.open_cash_session('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 0);
+
 -- Compra R$ 100 paga no PIX, duas de R$ 100 fiado, sai com R$ 180, paga R$ 50 em dinheiro.
-insert into ids values ('paid', public.record_entry('a0000000-0000-4000-8000-000000000001', 'buy_in', 10000, true, 'pix'));
+insert into ids values ('paid', public.record_entry('a0000000-0000-4000-8000-000000000001', 'buy_in', 10000, true, (select id from public.payment_methods where club_id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' and kind = 'pix')));
 insert into ids values ('fiado1', public.record_entry('a0000000-0000-4000-8000-000000000001', 'buy_in', 10000));
 insert into ids values ('fiado2', public.record_entry('a0000000-0000-4000-8000-000000000001', 'buy_in', 10000));
 insert into ids values ('out', public.record_cash_out('a0000000-0000-4000-8000-000000000001', 18000));
-insert into ids values ('pay', public.record_payment('a0000000-0000-4000-8000-000000000001', 'payment_in', 5000, 'cash', 'Pagou parte'));
+insert into ids values ('pay', public.record_payment('a0000000-0000-4000-8000-000000000001', 'payment_in', 5000, (select id from public.payment_methods where club_id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' and kind = 'cash'), 'Pagou parte'));
 
 select is(
   (select count(*)::int from public.player_sessions
@@ -79,7 +82,7 @@ select throws_ok(
 );
 
 select lives_ok(
-  $$ select public.record_payment('a0000000-0000-4000-8000-000000000003', 'payment_in', 1000, 'pix') $$,
+  $$ select public.record_payment('a0000000-0000-4000-8000-000000000003', 'payment_in', 1000, (select id from public.payment_methods where club_id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' and kind = 'pix')) $$,
   'jogador inativo pode quitar dívida (pagamento avulso)'
 );
 
