@@ -161,14 +161,14 @@ isOneToOne: false
                   ]
                 },"cash_tables": {
                   Row: {
-                    "big_blind_cents": number,"closed_at": string | null,"closed_by": string | null,"closing_note": string | null,"club_id": string,"id": string,"max_players": number | null,"name": string,"note": string | null,"opened_at": string,"opened_by": string | null,"small_blind_cents": number,"status": Database["public"]['Enums']["cash_table_status"]
+                    "big_blind_cents": number | null,"closed_at": string | null,"closed_by": string | null,"closing_note": string | null,"club_id": string,"id": string,"max_players": number | null,"name": string,"note": string | null,"opened_at": string,"opened_by": string | null,"small_blind_cents": number | null,"status": Database["public"]['Enums']["cash_table_status"]
                   }
                   ComputedFields: never
                   Insert: {
-                    "big_blind_cents": number,"closed_at"?: string | null,"closed_by"?: string | null,"closing_note"?: string | null,"club_id": string,"id"?: string,"max_players"?: number | null,"name": string,"note"?: string | null,"opened_at"?: string,"opened_by"?: string | null,"small_blind_cents": number,"status"?: Database["public"]['Enums']["cash_table_status"]
+                    "big_blind_cents"?: number | null,"closed_at"?: string | null,"closed_by"?: string | null,"closing_note"?: string | null,"club_id": string,"id"?: string,"max_players"?: number | null,"name": string,"note"?: string | null,"opened_at"?: string,"opened_by"?: string | null,"small_blind_cents"?: number | null,"status"?: Database["public"]['Enums']["cash_table_status"]
                   }
                   Update: {
-                    "big_blind_cents"?: number,"closed_at"?: string | null,"closed_by"?: string | null,"closing_note"?: string | null,"club_id"?: string,"id"?: string,"max_players"?: number | null,"name"?: string,"note"?: string | null,"opened_at"?: string,"opened_by"?: string | null,"small_blind_cents"?: number,"status"?: Database["public"]['Enums']["cash_table_status"]
+                    "big_blind_cents"?: number | null,"closed_at"?: string | null,"closed_by"?: string | null,"closing_note"?: string | null,"club_id"?: string,"id"?: string,"max_players"?: number | null,"name"?: string,"note"?: string | null,"opened_at"?: string,"opened_by"?: string | null,"small_blind_cents"?: number | null,"status"?: Database["public"]['Enums']["cash_table_status"]
                   }
                   Relationships: [
                     {
@@ -475,7 +475,7 @@ isOneToOne: false
                            },
 "cash_table_lock_open":
 { Args: { "target_table_id": string }; Returns: {
-              "big_blind_cents": number,
+              "big_blind_cents": number | null,
 "closed_at": string | null,
 "closed_by": string | null,
 "closing_note": string | null,
@@ -486,7 +486,7 @@ isOneToOne: false
 "note": string | null,
 "opened_at": string,
 "opened_by": string | null,
-"small_blind_cents": number,
+"small_blind_cents": number | null,
 "status": Database["public"]['Enums']["cash_table_status"]
             }
                           SetofOptions: {
@@ -599,7 +599,7 @@ isOneToOne: false
 { Args: { "opening_cents": number,"target_club_id": string }; Returns: string
                            },
 "open_cash_table":
-{ Args: { "big_blind_cents": number,"max_players"?: number,"small_blind_cents": number,"table_name": string,"table_note"?: string,"target_club_id": string }; Returns: string
+{ Args: { "big_blind_cents"?: number,"max_players"?: number,"small_blind_cents"?: number,"table_name": string,"table_note"?: string,"target_club_id": string }; Returns: string
                            },
 "record_cash_out":
 { Args: { "amount_cents": number,"entry_note"?: string,"target_player_id": string,"target_table_id"?: string }; Returns: string

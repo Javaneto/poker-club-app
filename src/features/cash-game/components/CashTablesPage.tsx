@@ -38,9 +38,11 @@ export function CashTablesPage() {
             >
               <span className="flex items-baseline justify-between gap-2">
                 <span className="truncate text-lg font-semibold">{table.name}</span>
-                <span className="text-muted-foreground text-sm tabular-nums">
-                  {formatBlinds(table.smallBlindCents, table.bigBlindCents, formatCents)}
-                </span>
+                {formatBlinds(table.smallBlindCents, table.bigBlindCents, formatCents) && (
+                  <span className="text-muted-foreground text-sm tabular-nums">
+                    {formatBlinds(table.smallBlindCents, table.bigBlindCents, formatCents)}
+                  </span>
+                )}
               </span>
               <span className="text-muted-foreground text-sm">
                 {table.seatedCount}

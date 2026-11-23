@@ -81,15 +81,23 @@ export function playerTableResult(input: { buyInCents: number; cashOutCents: num
   return input.cashOutCents - input.buyInCents;
 }
 
-/** "R$ 1/2" a partir dos blinds em centavos. */
+/**
+ * Blinds para exibição: "R$ 1/2"; só um informado: "SB R$ 1" ou "BB R$ 2".
+ * Sem blinds: null (a tela omite).
+ */
 export function formatBlinds(
-  smallBlindCents: number,
-  bigBlindCents: number,
+  smallBlindCents: number | null,
+  bigBlindCents: number | null,
   format: (cents: number) => string,
-): string {
+): string | null {
   const short = (cents: number) =>
     format(cents)
       .replace(/^R\$\s?/, '')
       .replace(/,00$/, '');
-  return `R$ ${short(smallBlindCents)}/${short(bigBlindCents)}`;
+  if (smallBlindCents !== null && bigBlindCents !== null) {
+    return `R$ ${short(smallBlindCents)}/${short(bigBlindCents)}`;
+  }
+  if (bigBlindCents !== null) return `BB R$ ${short(bigBlindCents)}`;
+  if (smallBlindCents !== null) return `SB R$ ${short(smallBlindCents)}`;
+  return null;
 }

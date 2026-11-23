@@ -63,6 +63,7 @@ export function CashTablePage() {
   }
 
   const isOpen = table.data.status === 'open';
+  const blinds = formatBlinds(table.data.smallBlindCents, table.data.bigBlindCents, formatCents);
   const canOperate = isOpen && canOperateCashGame(club.role);
   const canReverseLedger = isOpen && canOperateLedger(club.role);
   const chips = summary.data?.chipsCents ?? 0;
@@ -86,7 +87,7 @@ export function CashTablePage() {
           <Badge tone={isOpen ? 'success' : 'neutral'}>{isOpen ? 'Aberta' : 'Encerrada'}</Badge>
         </div>
         <p className="text-muted-foreground text-sm">
-          {formatBlinds(table.data.smallBlindCents, table.data.bigBlindCents, formatCents)} ·{' '}
+          {blinds && `${blinds} · `}
           {seated.length}
           {table.data.maxPlayers ? `/${table.data.maxPlayers}` : ''} sentados · aberta às{' '}
           {formatTime(table.data.openedAt)}

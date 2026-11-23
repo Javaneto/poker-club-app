@@ -68,7 +68,7 @@ negativo = jogador deve ao clube):
 
 ### Cash game
 
-- Mesa com nome, botton/blinds, limite de jogadores (opcional), status aberta/encerrada.
+- Mesa com nome, botton/blinds (opcionais: small e big blind podem ficar em branco), limite de jogadores (opcional), status aberta/encerrada.
 - Lançamentos de rake e capilé (gorjeta dos dealers) e despesas da mesa.
 - Conferência: compras − devoluções − rake − capilé = fichas na mesa; só encerra com 0
   e sem jogadores sentados.

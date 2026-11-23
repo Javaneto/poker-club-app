@@ -6,8 +6,8 @@ import { isTableEntryKind, type TableEntryKind } from '../domain/chips';
 export interface CashTable {
   id: string;
   name: string;
-  smallBlindCents: number;
-  bigBlindCents: number;
+  smallBlindCents: number | null;
+  bigBlindCents: number | null;
   maxPlayers: number | null;
   note: string | null;
   status: 'open' | 'closed';
@@ -81,8 +81,8 @@ const TABLE_COLUMNS =
 interface TableRow {
   id: string;
   name: string;
-  small_blind_cents: number;
-  big_blind_cents: number;
+  small_blind_cents: number | null;
+  big_blind_cents: number | null;
   max_players: number | null;
   note: string | null;
   status: 'open' | 'closed';
@@ -239,8 +239,8 @@ export async function fetchTableActivity(
 
 export interface OpenTableInput {
   name: string;
-  smallBlindCents: number;
-  bigBlindCents: number;
+  smallBlindCents: number | null;
+  bigBlindCents: number | null;
   maxPlayers: number | null;
   note: string | null;
 }
@@ -249,8 +249,8 @@ export async function openTable(clubId: string, input: OpenTableInput): Promise<
   const { data, error } = await supabase.rpc('open_cash_table', {
     target_club_id: clubId,
     table_name: input.name,
-    small_blind_cents: input.smallBlindCents,
-    big_blind_cents: input.bigBlindCents,
+    small_blind_cents: input.smallBlindCents ?? undefined,
+    big_blind_cents: input.bigBlindCents ?? undefined,
     max_players: input.maxPlayers ?? undefined,
     table_note: input.note ?? undefined,
   });

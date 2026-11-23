@@ -1,6 +1,6 @@
 -- Cash game: abrir mesa, sentar, compras/devoluções no ledger, rake/capilé/despesa, conferência e encerramento.
 begin;
-select plan(28);
+select plan(31);
 
 insert into auth.users (id, email) values
   ('11111111-1111-4111-8111-111111111111', 'dono@teste.test'),
@@ -60,6 +60,27 @@ select throws_ok(
 );
 
 insert into ids values ('t2', public.open_cash_table('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'Mesa 2', 200, 500));
+
+select lives_ok(
+  $$ select public.open_cash_table('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'Mesa sem blinds') $$,
+  'blinds são opcionais'
+);
+
+insert into ids values ('big_only', public.open_cash_table('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'Mesa só big', null, 500));
+
+select is(
+  (select coalesce(small_blind_cents::text, '-') || '/' || big_blind_cents::text
+     from public.cash_tables where id = (select id from ids where name = 'big_only')),
+  '-/500',
+  'pode informar só o big blind'
+);
+
+select throws_ok(
+  $$ select public.open_cash_table('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'Mesa zero', 0, 200) $$,
+  '22023',
+  'Os blinds, quando informados, devem ser maiores que zero.',
+  'blind informado precisa ser maior que zero'
+);
 
 select throws_ok(
   $$ select public.table_buy_in((select id from ids where name = 't1'), 'a0000000-0000-4000-8000-000000000001', 10000) $$,

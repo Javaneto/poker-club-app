@@ -3,6 +3,17 @@ import { moneyField } from '@/features/cash-register/schemas';
 import { parseBrlToCents } from '@/lib/money';
 import { TABLE_ENTRY_KINDS } from './domain/chips';
 
+/** Valor opcional em reais: vazio = não informado; se informado, maior que zero. */
+const optionalMoney = z.string().transform((value, ctx) => {
+  if (value.trim() === '') return null;
+  const cents = parseBrlToCents(value);
+  if (cents === null || cents <= 0) {
+    ctx.addIssue({ code: 'custom', message: 'Deixe vazio ou informe um valor maior que zero' });
+    return z.NEVER;
+  }
+  return cents;
+});
+
 const optionalNote = z
   .string()
   .trim()
@@ -16,8 +27,8 @@ export const openTableSchema = z
       .trim()
       .min(2, 'Use pelo menos 2 caracteres')
       .max(60, 'Use no máximo 60 caracteres'),
-    smallBlind: moneyField(false),
-    bigBlind: moneyField(false),
+    smallBlind: optionalMoney,
+    bigBlind: optionalMoney,
     maxPlayers: z
       .string()
       .trim()
@@ -32,10 +43,14 @@ export const openTableSchema = z
       }),
     note: optionalNote,
   })
-  .refine((data) => data.smallBlind <= data.bigBlind, {
-    path: ['smallBlind'],
-    message: 'O small blind não pode ser maior que o big blind',
-  })
+  .refine(
+    (data) =>
+      data.smallBlind === null || data.bigBlind === null || data.smallBlind <= data.bigBlind,
+    {
+      path: ['smallBlind'],
+      message: 'O small blind não pode ser maior que o big blind',
+    },
+  )
   .transform((data) => ({
     name: data.name,
     smallBlindCents: data.smallBlind,

@@ -27,8 +27,9 @@ export function ClosedTablesList({ clubId }: { clubId: string }) {
               className="hover:bg-muted/50 flex min-h-11 flex-col justify-center px-3 py-2"
             >
               <span className="text-sm font-medium">
-                {table.name} ·{' '}
-                {formatBlinds(table.smallBlindCents, table.bigBlindCents, formatCents)}
+                {[table.name, formatBlinds(table.smallBlindCents, table.bigBlindCents, formatCents)]
+                  .filter(Boolean)
+                  .join(' · ')}
               </span>
               <span className="text-muted-foreground text-xs">
                 {formatDateTime(table.openedAt)} →{' '}

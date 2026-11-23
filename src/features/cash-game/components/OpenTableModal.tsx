@@ -60,7 +60,7 @@ export function OpenTableModal({ clubId, open, onClose }: OpenTableModalProps) {
         />
         <div className="grid grid-cols-2 gap-3">
           <Input
-            label="Small blind (R$)"
+            label="Small blind (R$, opcional)"
             inputMode="decimal"
             autoComplete="off"
             placeholder="1,00"
@@ -68,7 +68,7 @@ export function OpenTableModal({ clubId, open, onClose }: OpenTableModalProps) {
             {...form.register('smallBlind')}
           />
           <Input
-            label="Big blind (R$)"
+            label="Big blind (R$, opcional)"
             inputMode="decimal"
             autoComplete="off"
             placeholder="2,00"

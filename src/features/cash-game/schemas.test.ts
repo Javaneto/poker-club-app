@@ -26,6 +26,20 @@ describe('openTableSchema', () => {
     expect(openTableSchema.safeParse({ ...base, maxPlayers: '13' }).success).toBe(false);
   });
 
+  it('blinds são opcionais; informado precisa ser maior que zero', () => {
+    const base = { name: 'Mesa', maxPlayers: '', note: '' };
+    expect(openTableSchema.parse({ ...base, smallBlind: '', bigBlind: '' })).toMatchObject({
+      smallBlindCents: null,
+      bigBlindCents: null,
+    });
+    expect(openTableSchema.parse({ ...base, smallBlind: '', bigBlind: '5' }).bigBlindCents).toBe(
+      500,
+    );
+    expect(openTableSchema.safeParse({ ...base, smallBlind: '0', bigBlind: '' }).success).toBe(
+      false,
+    );
+  });
+
   it('small blind maior que big blind é inválido', () => {
     const result = openTableSchema.safeParse({
       name: 'Mesa',
