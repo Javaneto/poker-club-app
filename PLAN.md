@@ -72,6 +72,16 @@ negativo = jogador deve ao clube):
 - Lançamentos de rake e capilé (gorjeta dos dealers) e despesas da mesa.
 - Conferência: compras − devoluções − rake − capilé = fichas na mesa; só encerra com 0
   e sem jogadores sentados.
+- **Decidido em 23/11/2026:**
+  - Compras e devoluções da mesa são lançamentos do ledger (`buy_in`/`cash_out` com `table_id`);
+    só podem ser feitos pela tela da mesa, com o jogador sentado.
+  - Rake e capilé são só registro (fichas retiradas da mesa); não movimentam o Caixa do Dia.
+    Pagar o capilé aos dealers é uma sangria.
+  - Despesas da mesa são só registro na mesa (relatórios); não mexem no caixa nem nas fichas.
+  - Devolução, rake e capilé não podem passar das fichas que estão na mesa.
+  - Operam a mesa: dono, gerente, caixa, diretor e dealer.
+  - Tempo de mesa = só exibição do tempo sentado (sentou/levantou), sem cobrança.
+  - Um jogador fica sentado em uma mesa por vez. Mesa encerrada não reabre.
 
 ### Torneio
 
@@ -221,10 +231,10 @@ negativo = jogador deve ao clube):
 
 ## Fase 7 — Cash game
 
-- [ ] Migration `cash_tables` (+ rake, capilé, despesas como lançamentos da mesa).
-- [ ] Abrir mesa, sentar jogador, compras/devoluções (usam o ledger), tempo de mesa.
-- [ ] Conferência de fichas e encerramento (só com 0 e sem jogadores).
-- [ ] Tela de mesa otimizada para celular.
+- [x] Migration `cash_tables` (+ rake, capilé, despesas como lançamentos da mesa).
+- [x] Abrir mesa, sentar jogador, compras/devoluções (usam o ledger), tempo de mesa.
+- [x] Conferência de fichas e encerramento (só com 0 e sem jogadores).
+- [x] Tela de mesa otimizada para celular.
 
 ## Fase 8 — Torneios: cadastro e inscrições
 

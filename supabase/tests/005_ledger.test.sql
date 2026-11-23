@@ -69,8 +69,8 @@ select throws_ok(
 
 select throws_ok(
   $$ select public.record_entry('a0000000-0000-4000-8000-000000000001', 'buy_in', 0) $$,
-  '23514',
-  null,
+  '22023',
+  'Informe um valor maior que zero.',
   'valor precisa ser positivo'
 );
 
