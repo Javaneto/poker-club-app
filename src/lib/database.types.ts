@@ -117,6 +117,88 @@ isOneToOne: true
                   Relationships: [
                     
                   ]
+                },"ledger_entries": {
+                  Row: {
+                    "amount_cents": number,"cash_session_id": string | null,"club_id": string,"created_at": string,"created_by": string | null,"effect_cents": number,"id": string,"kind": Database["public"]['Enums']["ledger_entry_kind"],"note": string | null,"paid_upfront": boolean,"payment_method": Database["public"]['Enums']["payment_method"] | null,"player_id": string,"reverses_id": string | null,"session_id": string | null,"table_id": string | null,"tournament_id": string | null,"reversed_by_id": string | null
+                  }
+                  ComputedFields: "reversed_by_id"
+                  Insert: {
+                    "amount_cents": number,"cash_session_id"?: string | null,"club_id": string,"created_at"?: string,"created_by"?: string | null,"effect_cents": number,"id"?: string,"kind": Database["public"]['Enums']["ledger_entry_kind"],"note"?: string | null,"paid_upfront"?: boolean,"payment_method"?: Database["public"]['Enums']["payment_method"] | null,"player_id": string,"reverses_id"?: string | null,"session_id"?: string | null,"table_id"?: string | null,"tournament_id"?: string | null
+                  }
+                  Update: {
+                    "amount_cents"?: number,"cash_session_id"?: string | null,"club_id"?: string,"created_at"?: string,"created_by"?: string | null,"effect_cents"?: number,"id"?: string,"kind"?: Database["public"]['Enums']["ledger_entry_kind"],"note"?: string | null,"paid_upfront"?: boolean,"payment_method"?: Database["public"]['Enums']["payment_method"] | null,"player_id"?: string,"reverses_id"?: string | null,"session_id"?: string | null,"table_id"?: string | null,"tournament_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "ledger_entries_club_id_fkey"
+      columns: ["club_id"]
+isOneToOne: false
+      referencedRelation: "clubs"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ledger_entries_player_id_fkey"
+      columns: ["player_id"]
+isOneToOne: false
+      referencedRelation: "player_overview"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ledger_entries_player_id_fkey"
+      columns: ["player_id"]
+isOneToOne: false
+      referencedRelation: "players"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ledger_entries_reverses_id_fkey"
+      columns: ["reverses_id"]
+isOneToOne: true
+      referencedRelation: "ledger_entries"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ledger_entries_session_id_fkey"
+      columns: ["session_id"]
+isOneToOne: false
+      referencedRelation: "player_overview"
+      referencedColumns: ["open_session_id"]
+    },{
+      foreignKeyName: "ledger_entries_session_id_fkey"
+      columns: ["session_id"]
+isOneToOne: false
+      referencedRelation: "player_sessions"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"player_sessions": {
+                  Row: {
+                    "closed_at": string | null,"closed_by": string | null,"club_id": string,"id": string,"last_reopened_at": string | null,"last_reopened_by": string | null,"opened_at": string,"opened_by": string | null,"player_id": string,"reopened_count": number,"result_cents": number | null,"status": Database["public"]['Enums']["player_session_status"]
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "closed_at"?: string | null,"closed_by"?: string | null,"club_id": string,"id"?: string,"last_reopened_at"?: string | null,"last_reopened_by"?: string | null,"opened_at"?: string,"opened_by"?: string | null,"player_id": string,"reopened_count"?: number,"result_cents"?: number | null,"status"?: Database["public"]['Enums']["player_session_status"]
+                  }
+                  Update: {
+                    "closed_at"?: string | null,"closed_by"?: string | null,"club_id"?: string,"id"?: string,"last_reopened_at"?: string | null,"last_reopened_by"?: string | null,"opened_at"?: string,"opened_by"?: string | null,"player_id"?: string,"reopened_count"?: number,"result_cents"?: number | null,"status"?: Database["public"]['Enums']["player_session_status"]
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "player_sessions_club_id_fkey"
+      columns: ["club_id"]
+isOneToOne: false
+      referencedRelation: "clubs"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "player_sessions_player_id_fkey"
+      columns: ["player_id"]
+isOneToOne: false
+      referencedRelation: "player_overview"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "player_sessions_player_id_fkey"
+      columns: ["player_id"]
+isOneToOne: false
+      referencedRelation: "players"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"players": {
                   Row: {
                     "active": boolean,"birth_date": string | null,"club_id": string,"cpf": string | null,"created_at": string,"created_by": string | null,"email": string | null,"full_name": string,"id": string,"nickname": string | null,"normalized_name": string | null,"notes": string | null,"phone": string | null,"search_text": string | null,"updated_at": string
@@ -154,7 +236,21 @@ isOneToOne: false
                 }
           }
           Views: {
-            [_ in never]: never
+            "player_overview": {
+                  Row: {
+                    "active": boolean,"balance_cents": number | null,"birth_date": string | null,"club_id": string,"cpf": string | null,"created_at": string,"email": string | null,"full_name": string,"id": string,"nickname": string | null,"normalized_name": string | null,"notes": string | null,"open_result_cents": number | null,"open_session_id": string | null,"phone": string | null,"search_text": string | null
+                  }
+                  ComputedFields: never
+                  Relationships: [
+                    {
+      foreignKeyName: "players_club_id_fkey"
+      columns: ["club_id"]
+isOneToOne: false
+      referencedRelation: "clubs"
+      referencedColumns: ["id"]
+    }
+                  ]
+                }
           }
           Functions: {
             "accept_club_invitation":
@@ -162,6 +258,18 @@ isOneToOne: false
                            },
 "can_manage_players":
 { Args: { "target_club_id": string }; Returns: boolean
+                           },
+"can_operate_ledger":
+{ Args: { "target_club_id": string }; Returns: boolean
+                           },
+"close_all_sessions":
+{ Args: { "target_club_id": string }; Returns: number
+                           },
+"close_player_session":
+{ Args: { "target_session_id": string }; Returns: number
+                           },
+"close_session_internal":
+{ Args: { "target_session_id": string }; Returns: number
                            },
 "create_club":
 { Args: { "club_name": string }; Returns: string
@@ -200,6 +308,18 @@ isOneToOne: false
 "is_club_member":
 { Args: { "target_club_id": string }; Returns: boolean
                            },
+"ledger_effect":
+{ Args: { "amount": number,"entry_kind": Database["public"]['Enums']["ledger_entry_kind"],"paid": boolean,"reversed_effect"?: number }; Returns: number
+                           },
+"ledger_lock_player":
+{ Args: { "require_active": boolean,"target_player_id": string }; Returns: string
+                           },
+"ledger_open_session_id":
+{ Args: { "create_if_missing": boolean,"target_player_id": string }; Returns: string
+                           },
+"ledger_require_operator":
+{ Args: { "target_club_id": string }; Returns: undefined
+                           },
 "list_club_members":
 { Args: { "target_club_id": string }; Returns: {
               "email": string,"full_name": string,"joined_at": string,"role": Database["public"]['Enums']["club_role"],"user_id": string
@@ -208,11 +328,29 @@ isOneToOne: false
 "normalize_text":
 { Args: { "value": string }; Returns: string
                            },
+"record_cash_out":
+{ Args: { "amount_cents": number,"entry_note"?: string,"target_player_id": string,"target_table_id"?: string }; Returns: string
+                           },
+"record_entry":
+{ Args: { "amount_cents": number,"entry_kind": Database["public"]['Enums']["ledger_entry_kind"],"entry_note"?: string,"method"?: Database["public"]['Enums']["payment_method"],"paid_upfront"?: boolean,"target_player_id": string,"target_table_id"?: string,"target_tournament_id"?: string }; Returns: string
+                           },
+"record_payment":
+{ Args: { "amount_cents": number,"entry_kind": Database["public"]['Enums']["ledger_entry_kind"],"entry_note"?: string,"method": Database["public"]['Enums']["payment_method"],"target_player_id": string }; Returns: string
+                           },
 "remove_club_member":
 { Args: { "target_club_id": string,"target_user_id": string }; Returns: undefined
                            },
+"reopen_session":
+{ Args: { "target_session_id": string }; Returns: undefined
+                           },
 "require_club_owner":
 { Args: { "target_club_id": string }; Returns: undefined
+                           },
+"reverse_entry":
+{ Args: { "entry_note"?: string,"target_entry_id": string }; Returns: string
+                           },
+"reversed_by_id":
+{ Args: { "entry": Omit<Database["public"]['Tables']["ledger_entries"]['Row'], Database["public"]['Tables']["ledger_entries"]['ComputedFields']> }; Returns: string
                            },
 "revoke_club_invitation":
 { Args: { "invitation_id": string }; Returns: undefined
@@ -227,7 +365,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "club_role": "owner"|"manager"|"cashier"|"director"|"dealer"|"waiter"
+            "club_role": "owner"|"manager"|"cashier"|"director"|"dealer"|"waiter","ledger_entry_kind": "buy_in"|"tournament_entry"|"cash_out"|"payment_in"|"payout"|"bar_charge"|"reversal","payment_method": "cash"|"pix"|"debit_card"|"credit_card"|"other","player_session_status": "open"|"closed"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -347,7 +485,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "club_role": ["owner", "manager", "cashier", "director", "dealer", "waiter"]
+            "club_role": ["owner", "manager", "cashier", "director", "dealer", "waiter"],"ledger_entry_kind": ["buy_in", "tournament_entry", "cash_out", "payment_in", "payout", "bar_charge", "reversal"],"payment_method": ["cash", "pix", "debit_card", "credit_card", "other"],"player_session_status": ["open", "closed"]
           }
         }
 } as const
