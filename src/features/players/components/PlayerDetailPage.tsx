@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { toast } from '@/components/ui/toastStore';
 import { useActiveClub } from '@/features/clubs/components/activeClubContext';
+import { PlayerAccountPanel } from '@/features/ledger/components/PlayerAccountPanel';
 import { formatDate, toLocalDateKey } from '@/lib/dates';
 import { useDeletePlayer, usePlayer, useSetPlayerActive } from '../api/usePlayers';
 import { canDeletePlayers, canManagePlayers } from '../domain/permissions';
@@ -118,13 +119,7 @@ export function PlayerDetailPage() {
           <Field label="Cadastrado em">{formatDate(data.createdAt)}</Field>
         </dl>
 
-        <div className="border-border flex flex-col gap-2 rounded-lg border border-dashed p-4">
-          <h2 className="font-semibold">Conta do jogador</h2>
-          <p className="text-muted-foreground text-sm">
-            Saldo geral, saldo em aberto e histórico de lançamentos aparecem aqui quando a conta do
-            jogador for ativada (próxima etapa).
-          </p>
-        </div>
+        <PlayerAccountPanel player={data} />
       </div>
 
       <Modal

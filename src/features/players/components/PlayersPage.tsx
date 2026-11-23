@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { useActiveClub } from '@/features/clubs/components/activeClubContext';
+import { BalanceText } from '@/features/ledger/components/BalanceText';
 import { useDebouncedValue } from '@/lib/useDebouncedValue';
 import type { PlayerSort, PlayerStatusFilter } from '../api/playersApi';
 import { usePlayerList } from '../api/usePlayers';
@@ -15,10 +16,13 @@ const STATUS_OPTIONS: { value: PlayerStatusFilter; label: string }[] = [
   { value: 'active', label: 'Ativos' },
   { value: 'inactive', label: 'Inativos' },
   { value: 'all', label: 'Todos' },
+  { value: 'playing', label: 'Em jogo' },
+  { value: 'owing', label: 'Devendo' },
+  { value: 'credit', label: 'Com crédito' },
 ];
 
 function readStatus(value: string | null): PlayerStatusFilter {
-  return value === 'inactive' || value === 'all' ? value : 'active';
+  return STATUS_OPTIONS.find((option) => option.value === value)?.value ?? 'active';
 }
 
 function readSort(value: string | null): PlayerSort {
@@ -161,6 +165,10 @@ export function PlayersPage() {
                   )}
                 </div>
                 {!player.active && <Badge>Inativo</Badge>}
+                {player.openSessionId && <Badge tone="success">em jogo</Badge>}
+                {player.balanceCents !== 0 && (
+                  <BalanceText cents={player.balanceCents} className="text-sm" />
+                )}
                 <span aria-hidden="true" className="text-muted-foreground">
                   ›
                 </span>

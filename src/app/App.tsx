@@ -10,6 +10,9 @@ import { SignUpPage } from '@/features/auth/components/SignUpPage';
 import { AcceptInvitePage } from '@/features/clubs/components/AcceptInvitePage';
 import { CreateClubPage } from '@/features/clubs/components/CreateClubPage';
 import { MembersPage } from '@/features/clubs/components/MembersPage';
+import { OpenMovementsPage } from '@/features/ledger/components/OpenMovementsPage';
+import { ReceiptPage } from '@/features/ledger/components/ReceiptPage';
+import { UndoCenterPage } from '@/features/ledger/components/UndoCenterPage';
 import { EditPlayerPage } from '@/features/players/components/EditPlayerPage';
 import { NewPlayerPage } from '@/features/players/components/NewPlayerPage';
 import { PlayerDetailPage } from '@/features/players/components/PlayerDetailPage';
@@ -47,6 +50,7 @@ const router = createBrowserRouter([
       {
         element: <RequireClub />,
         children: [
+          { path: '/recibo/:entryId', element: <ReceiptPage /> },
           {
             element: <AppLayout />,
             children: [
@@ -55,6 +59,8 @@ const router = createBrowserRouter([
               { path: '/jogadores/novo', element: <NewPlayerPage /> },
               { path: '/jogadores/:playerId', element: <PlayerDetailPage /> },
               { path: '/jogadores/:playerId/editar', element: <EditPlayerPage /> },
+              { path: '/movimentacoes', element: <OpenMovementsPage /> },
+              { path: '/desfazer', element: <UndoCenterPage /> },
               { path: '/equipe', element: <MembersPage /> },
             ],
           },
