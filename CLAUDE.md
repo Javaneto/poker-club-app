@@ -4,6 +4,7 @@ Guia obrigatório para todas as sessões. O plano de execução está em `PLAN.m
 siga a fase atual e marque `[x]` ao concluir cada tarefa.
 
 ## Contexto
+
 - Reconstrução do zero do sistema legado (HTML/JS puro em `poker-system/`) como
   **SaaS multi-clube**. O legado é **referência de regras de negócio, não de código**:
   nunca copie arquivos, estrutura ou padrões dele.
@@ -13,6 +14,7 @@ siga a fase atual e marque `[x]` ao concluir cada tarefa.
   (identificadores, arquivos, commits) em **inglês**. Moeda BRL, fuso `America/Sao_Paulo`.
 
 ## Stack (decidida — não trocar sem perguntar)
+
 - **Frontend:** Vite + React 18 + TypeScript (strict) + React Router.
 - **UI:** Tailwind CSS + componentes próprios em `src/components/ui` (estilo shadcn/ui).
 - **Dados no cliente:** TanStack Query (cache/servidor) + Zustand só para estado de UI.
@@ -22,12 +24,14 @@ siga a fase atual e marque `[x]` ao concluir cada tarefa.
   testes SQL via Supabase CLI para RLS e funções.
 - **Qualidade:** ESLint + Prettier; Husky + lint-staged no pre-commit.
 - **Gerenciador:** pnpm 12. Node 26 LTS (o instalado nesta máquina).
+- **TypeScript 6.x** (não 7): o typescript-eslint ainda não suporta o TS 7.
 - **Supabase CLI:** dependência de desenvolvimento do projeto (`pnpm add -D supabase`),
   usada como `pnpm supabase ...`. O banco local precisa do Docker Desktop rodando.
 - **Ambiente:** Windows + PowerShell.
 - **Deploy:** hospedagem estática (Vercel ou GitHub Pages) + projeto Supabase separado por ambiente (dev/prod).
 
 ## Comandos
+
 ```
 pnpm install              # dependências
 pnpm dev                  # servidor local (Vite)
@@ -42,9 +46,11 @@ pnpm supabase migration new <nome>
 pnpm supabase gen types typescript --local > src/lib/database.types.ts
 pnpm supabase test db     # testes de banco (RLS, funções)
 ```
+
 Antes de dizer que uma tarefa terminou: `pnpm typecheck && pnpm lint && pnpm test` passando.
 
 ## Arquitetura
+
 ```
 src/
   app/            # rotas, layout, providers (QueryClient, Auth, Club)
@@ -61,11 +67,13 @@ supabase/
   seed.sql        # dados de desenvolvimento
   tests/          # testes de RLS e funções
 ```
+
 Módulos (`features/`): `auth`, `clubs`, `players`, `ledger` (conta do jogador),
 `cash-register` (caixa do dia), `cash-game`, `tournaments`, `clock`, `blinds`,
 `prizes`, `bar`, `rankings`, `reports`, `audit`, `settings`.
 
 ## Regras de arquitetura (obrigatórias)
+
 1. **Multi-clube:** toda tabela de negócio tem `club_id uuid not null`. RLS ligado em
    **todas** as tabelas, filtrando por pertencer ao clube (`is_club_member(club_id)`).
    Nenhuma consulta confia em filtro feito só no cliente.
@@ -96,6 +104,7 @@ Módulos (`features/`): `auth`, `clubs`, `players`, `ledger` (conta do jogador),
     `service_role` apenas em Edge Functions/scripts, nunca no repositório.
 
 ## Padrões de código
+
 - TypeScript strict; proibido `any` (use `unknown` + Zod). Tipos do banco gerados, não escritos à mão.
 - Componentes funcionais, um por arquivo, `PascalCase.tsx`; hooks `useAlgo.ts`; demais `camelCase.ts`.
 - Banco em `snake_case` inglês; TS em `camelCase` (converter na camada `api/`).
@@ -106,6 +115,7 @@ Módulos (`features/`): `auth`, `clubs`, `players`, `ledger` (conta do jogador),
 - Telas públicas (TV do torneio, ranking público) sem dados pessoais.
 
 ## Convenções de trabalho
+
 - Uma fase do `PLAN.md` por vez; tarefas pequenas, cada uma com teste.
 - Mudança de banco = nova migration (nunca editar migration já aplicada) + regenerar tipos.
 - Commits em inglês, Conventional Commits (`feat(tournaments): ...`), um assunto por commit.
