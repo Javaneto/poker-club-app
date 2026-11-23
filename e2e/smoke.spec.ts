@@ -1,10 +1,17 @@
 import { expect, test } from '@playwright/test';
 
-test('a página inicial carrega e abre o modal', async ({ page }) => {
+test('sem sessão, a página inicial leva ao login', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Clube de Poker' })).toBeVisible();
-  await page.getByRole('button', { name: 'Abrir modal' }).click();
-  await expect(page.getByRole('dialog', { name: 'Exemplo de modal' })).toBeVisible();
+  await expect(page).toHaveURL(/\/entrar\?next=%2F$/);
+  await expect(page.getByRole('heading', { name: 'Entrar' })).toBeVisible();
+  await expect(page.getByLabel('E-mail')).toBeVisible();
+});
+
+test('valida o formulário de login antes de enviar', async ({ page }) => {
+  await page.goto('/entrar');
+  await page.getByRole('button', { name: 'Entrar' }).click();
+  await expect(page.getByText('Informe o e-mail')).toBeVisible();
+  await expect(page.getByText('Informe a senha')).toBeVisible();
 });
 
 test('rota inexistente mostra página não encontrada', async ({ page }) => {

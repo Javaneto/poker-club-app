@@ -166,11 +166,11 @@ negativo = jogador deve ao clube):
 
 ## Fase 3 — Autenticação e clubes
 
-- [ ] Login/logout com e-mail e senha (Supabase Auth), recuperação de senha.
-- [ ] Criar clube (onboarding) e trocar de clube ativo.
-- [ ] Convidar membro e definir papel; tela de usuários do clube.
-- [ ] Rotas protegidas por sessão e por papel; layout com menu lateral (desktop) e inferior/gaveta (celular).
-- [ ] 2FA opcional (TOTP do Supabase).
+- [x] Login/logout com e-mail e senha (Supabase Auth), recuperação de senha.
+- [x] Criar clube (onboarding) e trocar de clube ativo.
+- [x] Convidar membro e definir papel; tela de usuários do clube.
+- [x] Rotas protegidas por sessão e por papel; layout com menu lateral (desktop) e inferior/gaveta (celular).
+- [ ] 2FA opcional (TOTP do Supabase). Adiado: fica para depois das telas principais.
 
 ## Fase 4 — Jogadores
 
