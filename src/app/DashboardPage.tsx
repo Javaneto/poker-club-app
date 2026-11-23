@@ -1,6 +1,7 @@
 import { useAuth } from '@/features/auth/components/authContext';
 import { useActiveClub } from '@/features/clubs/components/activeClubContext';
 import { ROLE_LABELS } from '@/features/clubs/domain/roles';
+import { BirthdaysCard } from '@/features/players/components/BirthdaysCard';
 
 /** Início provisório. O painel completo chega na Fase 11. */
 export function DashboardPage() {
@@ -18,6 +19,9 @@ export function DashboardPage() {
       <p className="text-muted-foreground text-sm">
         Os módulos do clube (jogadores, caixa, torneios) aparecem aqui nas próximas fases.
       </p>
+      <div className="mt-4">
+        <BirthdaysCard />
+      </div>
     </section>
   );
 }
