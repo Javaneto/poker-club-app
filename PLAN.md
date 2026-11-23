@@ -114,6 +114,11 @@ negativo = jogador deve ao clube):
 - Produtos (categoria, preço, custo, estoque, mínimo, margem), comandas por jogador;
   ao fechar: recebe no caixa ou vira fiado na conta do jogador. Baixa de estoque.
 
+### Clubes e contas
+
+- Qualquer pessoa cadastrada pode criar um clube e vira `owner` dele.
+- Futuro (Fase 15): ativação/bloqueio do clube pela plataforma, por liberação ou pagamento.
+
 ### Auditoria
 
 - Log de toda inclusão/alteração/estorno com usuário e data; filtros; "restaurar" =
@@ -256,5 +261,5 @@ negativo = jogador deve ao clube):
 
 - [ ] Testes E2E dos fluxos críticos (cash completo, torneio completo, fechamento de caixa).
 - [ ] Revisão de acessibilidade e celular (375px) em todas as telas.
-- [ ] Planos/cobrança e onboarding de novos clubes (se for vender).
+- [ ] Planos/cobrança e onboarding de novos clubes (se for vender): status do clube (ativo, aguardando liberação, bloqueado) controlado pela plataforma; clube bloqueado não opera (RLS + aviso na UI).
 - [ ] Backup, monitoramento de erros e documentação de uso.
