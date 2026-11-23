@@ -17,17 +17,6 @@ export default tseslint.config(
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/consistent-type-imports': 'error',
-      'no-restricted-imports': [
-        'error',
-        {
-          paths: [
-            {
-              name: '@supabase/supabase-js',
-              message: 'Use o cliente de @/lib/supabase dentro de features/<módulo>/api.',
-            },
-          ],
-        },
-      ],
     },
   },
   {

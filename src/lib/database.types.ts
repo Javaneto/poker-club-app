@@ -43,6 +43,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"club_invitations": {
+                  Row: {
+                    "accepted_at": string | null,"accepted_by": string | null,"club_id": string,"created_at": string,"email": string,"expires_at": string,"id": string,"invited_by": string | null,"revoked_at": string | null,"role": Database["public"]['Enums']["club_role"],"token": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "accepted_at"?: string | null,"accepted_by"?: string | null,"club_id": string,"created_at"?: string,"email": string,"expires_at"?: string,"id"?: string,"invited_by"?: string | null,"revoked_at"?: string | null,"role": Database["public"]['Enums']["club_role"],"token"?: string
+                  }
+                  Update: {
+                    "accepted_at"?: string | null,"accepted_by"?: string | null,"club_id"?: string,"created_at"?: string,"email"?: string,"expires_at"?: string,"id"?: string,"invited_by"?: string | null,"revoked_at"?: string | null,"role"?: Database["public"]['Enums']["club_role"],"token"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "club_invitations_club_id_fkey"
+      columns: ["club_id"]
+isOneToOne: false
+      referencedRelation: "clubs"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"club_members": {
                   Row: {
                     "club_id": string,"created_at": string,"role": Database["public"]['Enums']["club_role"],"updated_at": string,"user_id": string
@@ -117,11 +137,59 @@ isOneToOne: true
             [_ in never]: never
           }
           Functions: {
-            "has_club_role":
+            "accept_club_invitation":
+{ Args: { "invite_token": string }; Returns: string
+                           },
+"create_club":
+{ Args: { "club_name": string }; Returns: string
+                           },
+"create_club_invitation":
+{ Args: { "invite_email": string,"invite_role": Database["public"]['Enums']["club_role"],"target_club_id": string }; Returns: {
+              "accepted_at": string | null,
+"accepted_by": string | null,
+"club_id": string,
+"created_at": string,
+"email": string,
+"expires_at": string,
+"id": string,
+"invited_by": string | null,
+"revoked_at": string | null,
+"role": Database["public"]['Enums']["club_role"],
+"token": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "club_invitations"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
+"get_invitation_by_token":
+{ Args: { "invite_token": string }; Returns: {
+              "club_name": string,"email": string,"role": Database["public"]['Enums']["club_role"],"status": string
+            }[]
+                           },
+"has_club_role":
 { Args: { "roles": (Database["public"]['Enums']["club_role"])[],"target_club_id": string }; Returns: boolean
                            },
 "is_club_member":
 { Args: { "target_club_id": string }; Returns: boolean
+                           },
+"list_club_members":
+{ Args: { "target_club_id": string }; Returns: {
+              "email": string,"full_name": string,"joined_at": string,"role": Database["public"]['Enums']["club_role"],"user_id": string
+            }[]
+                           },
+"remove_club_member":
+{ Args: { "target_club_id": string,"target_user_id": string }; Returns: undefined
+                           },
+"require_club_owner":
+{ Args: { "target_club_id": string }; Returns: undefined
+                           },
+"revoke_club_invitation":
+{ Args: { "invitation_id": string }; Returns: undefined
+                           },
+"update_club_member_role":
+{ Args: { "new_role": Database["public"]['Enums']["club_role"],"target_club_id": string,"target_user_id": string }; Returns: undefined
                            }
           }
           Enums: {
