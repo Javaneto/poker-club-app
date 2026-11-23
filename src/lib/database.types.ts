@@ -117,6 +117,26 @@ isOneToOne: true
                   Relationships: [
                     
                   ]
+                },"players": {
+                  Row: {
+                    "active": boolean,"birth_date": string | null,"club_id": string,"cpf": string | null,"created_at": string,"created_by": string | null,"email": string | null,"full_name": string,"id": string,"nickname": string | null,"normalized_name": string | null,"notes": string | null,"phone": string | null,"search_text": string | null,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "active"?: boolean,"birth_date"?: string | null,"club_id": string,"cpf"?: string | null,"created_at"?: string,"created_by"?: string | null,"email"?: string | null,"full_name": string,"id"?: string,"nickname"?: string | null,"normalized_name"?: never,"notes"?: string | null,"phone"?: string | null,"search_text"?: never,"updated_at"?: string
+                  }
+                  Update: {
+                    "active"?: boolean,"birth_date"?: string | null,"club_id"?: string,"cpf"?: string | null,"created_at"?: string,"created_by"?: string | null,"email"?: string | null,"full_name"?: string,"id"?: string,"nickname"?: string | null,"normalized_name"?: never,"notes"?: string | null,"phone"?: string | null,"search_text"?: never,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "players_club_id_fkey"
+      columns: ["club_id"]
+isOneToOne: false
+      referencedRelation: "clubs"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"profiles": {
                   Row: {
                     "created_at": string,"full_name": string,"id": string,"updated_at": string
@@ -139,6 +159,9 @@ isOneToOne: true
           Functions: {
             "accept_club_invitation":
 { Args: { "invite_token": string }; Returns: string
+                           },
+"can_manage_players":
+{ Args: { "target_club_id": string }; Returns: boolean
                            },
 "create_club":
 { Args: { "club_name": string }; Returns: string
@@ -163,6 +186,9 @@ isOneToOne: true
         isOneToOne: true
         isSetofReturn: false
       } },
+"delete_player":
+{ Args: { "target_player_id": string }; Returns: undefined
+                           },
 "get_invitation_by_token":
 { Args: { "invite_token": string }; Returns: {
               "club_name": string,"email": string,"role": Database["public"]['Enums']["club_role"],"status": string
@@ -179,6 +205,9 @@ isOneToOne: true
               "email": string,"full_name": string,"joined_at": string,"role": Database["public"]['Enums']["club_role"],"user_id": string
             }[]
                            },
+"normalize_text":
+{ Args: { "value": string }; Returns: string
+                           },
 "remove_club_member":
 { Args: { "target_club_id": string,"target_user_id": string }; Returns: undefined
                            },
@@ -187,6 +216,11 @@ isOneToOne: true
                            },
 "revoke_club_invitation":
 { Args: { "invitation_id": string }; Returns: undefined
+                           },
+"upcoming_birthdays":
+{ Args: { "days_ahead"?: number,"reference_date"?: string,"target_club_id": string }; Returns: {
+              "birth_date": string,"full_name": string,"next_birthday": string,"nickname": string,"player_id": string,"turning_age": number
+            }[]
                            },
 "update_club_member_role":
 { Args: { "new_role": Database["public"]['Enums']["club_role"],"target_club_id": string,"target_user_id": string }; Returns: undefined
