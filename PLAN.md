@@ -38,6 +38,15 @@ negativo = jogador deve ao clube):
   Sessão com resultado < 0 = pendente (fiado); = 0 = realizado; > 0 = crédito.
 - Uma sessão finalizada pode ser **reaberta** (correção de fechamento) — auditado.
 - "Finalizar todos" precisa operar sobre o estado atual do banco (RPC), não sobre a lista da tela.
+- **Saldo corrido único (decidido em 23/11/2026):** o saldo do jogador é a soma do efeito de
+  todos os lançamentos, de todas as sessões. Pagamento (`payment_in`) e pagamento ao jogador
+  (`payout`) abatem esse saldo, não uma sessão específica; entram na sessão aberta, se houver,
+  ou ficam avulsos. Crédito de uma sessão abate dívidas antigas automaticamente (é o mesmo saldo).
+  O status da sessão (pendente/realizado/crédito) é só o resultado daquela sessão, para histórico.
+- Estorno vai para a mesma sessão do lançamento original; se ela estiver finalizada, é preciso
+  reabrir antes. Estorno não pode ser estornado nem repetido.
+- Formas de pagamento nesta fase: dinheiro, PIX, cartão de débito, cartão de crédito, outro
+  (a tabela configurável por clube chega na Fase 6).
 - Pagamento pode ter **observação**. Recibo imprimível em impressora térmica 80 mm.
 
 ### Caixa do Dia (novo, do ChipControl)
@@ -184,15 +193,15 @@ negativo = jogador deve ao clube):
 
 ## Fase 5 — Conta do jogador (ledger) e sessões
 
-- [ ] Fase 4 pendente: filtros por saldo na lista de jogadores, saldo/histórico na ficha e `delete_player` recusar quem tem lançamentos.
-- [ ] Migration `ledger_entries` (player_id, kind enum, amount_cents, paid_upfront, payment_method, cash_session_id, tournament_id, table_id, session_id, reverses_id, note, created_by).
-- [ ] `player_sessions` (aberta/finalizada, finalizada em/por, reaberta).
-- [ ] `domain/result.ts`: cálculo do resultado com testes reproduzindo o legado.
-- [ ] RPCs: `record_entry`, `record_payment`, `record_cash_out`, `reverse_entry`, `close_player_session`, `close_all_sessions`, `reopen_session` (transacionais, auditadas).
-- [ ] Tela "Movimentações em aberto" (todos os jogadores, cash + torneio) em tempo real, com busca.
-- [ ] Histórico de sessões finalizadas com status (pendente/realizado/crédito).
-- [ ] Registrar pagamento com observação; recibo térmico 80 mm.
-- [ ] Central "Desfazer / Log": em aberto, sessões finalizadas (reabrir), log com filtros.
+- [x] Fase 4 pendente: filtros por saldo na lista de jogadores, saldo/histórico na ficha e `delete_player` recusar quem tem lançamentos.
+- [x] Migration `ledger_entries` (player_id, kind enum, amount_cents, paid_upfront, payment_method, cash_session_id, tournament_id, table_id, session_id, reverses_id, note, created_by).
+- [x] `player_sessions` (aberta/finalizada, finalizada em/por, reaberta).
+- [x] `domain/result.ts`: cálculo do resultado com testes reproduzindo o legado.
+- [x] RPCs: `record_entry`, `record_payment`, `record_cash_out`, `reverse_entry`, `close_player_session`, `close_all_sessions`, `reopen_session` (transacionais, auditadas).
+- [x] Tela "Movimentações em aberto" (todos os jogadores, cash + torneio) em tempo real, com busca.
+- [x] Histórico de sessões finalizadas com status (pendente/realizado/crédito).
+- [x] Registrar pagamento com observação; recibo térmico 80 mm.
+- [x] Central "Desfazer / Log": em aberto, sessões finalizadas (reabrir), log com filtros.
 
 ## Fase 6 — Caixa do Dia
 

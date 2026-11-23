@@ -71,3 +71,29 @@
     font-size: 16px;
   }
 }
+
+/* Recibo térmico (80 mm). Na tela, uma tira centralizada; na impressão, só o recibo. */
+.receipt {
+  width: 80mm;
+  max-width: 100%;
+}
+
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+
+  body.receipt-mode {
+    background: #fff;
+  }
+
+  body.receipt-mode .no-print {
+    display: none !important;
+  }
+
+  body.receipt-mode .receipt {
+    box-shadow: none;
+    padding: 2mm;
+  }
+}
