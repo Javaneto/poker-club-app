@@ -6,6 +6,7 @@ import { ClubSwitcher } from '@/features/clubs/components/ClubSwitcher';
 import { useActiveClub } from '@/features/clubs/components/activeClubContext';
 import { ROLE_LABELS } from '@/features/clubs/domain/roles';
 import { cn } from '@/lib/cn';
+import { MobileNav } from './MobileNav';
 import { visibleNavItems } from './navigation';
 import { useTheme } from './useTheme';
 
@@ -71,29 +72,7 @@ export function AppLayout() {
         </main>
       </div>
 
-      <nav
-        aria-label="Menu principal"
-        className="border-border bg-surface fixed inset-x-0 bottom-0 z-30 flex border-t pb-[env(safe-area-inset-bottom)] md:hidden"
-      >
-        {items.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.to === '/'}
-            className={({ isActive }) =>
-              cn(
-                'flex h-16 flex-1 flex-col items-center justify-center gap-0.5 text-xs font-medium',
-                isActive ? 'text-primary' : 'text-muted-foreground',
-              )
-            }
-          >
-            <span aria-hidden="true" className="text-lg">
-              {item.icon}
-            </span>
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
+      <MobileNav items={items} />
     </div>
   );
 }

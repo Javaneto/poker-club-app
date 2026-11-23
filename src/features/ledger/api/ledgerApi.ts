@@ -99,12 +99,12 @@ export async function recordMovement(playerId: string, data: EntryFormData): Pro
   }
 
   if (data.kind === 'payment_in' || data.kind === 'payout') {
-    if (!data.paymentMethod) throw new Error('Forma de pagamento obrigatória');
+    if (!data.paymentMethodId) throw new Error('Forma de pagamento obrigatória');
     const { data: id, error } = await supabase.rpc('record_payment', {
       target_player_id: playerId,
       entry_kind: data.kind,
       amount_cents: data.amountCents,
-      method: data.paymentMethod,
+      method_id: data.paymentMethodId,
       entry_note: data.note ?? undefined,
     });
     if (error) throw error;
@@ -116,7 +116,7 @@ export async function recordMovement(playerId: string, data: EntryFormData): Pro
     entry_kind: data.kind,
     amount_cents: data.amountCents,
     paid_upfront: data.paidUpfront,
-    method: data.paymentMethod ?? undefined,
+    method_id: data.paymentMethodId ?? undefined,
     entry_note: data.note ?? undefined,
   });
   if (error) throw error;

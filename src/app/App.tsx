@@ -9,7 +9,10 @@ import { ResetPasswordPage } from '@/features/auth/components/ResetPasswordPage'
 import { SignUpPage } from '@/features/auth/components/SignUpPage';
 import { AcceptInvitePage } from '@/features/clubs/components/AcceptInvitePage';
 import { CreateClubPage } from '@/features/clubs/components/CreateClubPage';
+import { CashRegisterPage } from '@/features/cash-register/components/CashRegisterPage';
+import { CashReportPage } from '@/features/cash-register/components/CashReportPage';
 import { MembersPage } from '@/features/clubs/components/MembersPage';
+import { SettingsPage } from '@/features/settings/components/SettingsPage';
 import { OpenMovementsPage } from '@/features/ledger/components/OpenMovementsPage';
 import { ReceiptPage } from '@/features/ledger/components/ReceiptPage';
 import { UndoCenterPage } from '@/features/ledger/components/UndoCenterPage';
@@ -51,6 +54,7 @@ const router = createBrowserRouter([
         element: <RequireClub />,
         children: [
           { path: '/recibo/:entryId', element: <ReceiptPage /> },
+          { path: '/caixa/:sessionId/relatorio', element: <CashReportPage /> },
           {
             element: <AppLayout />,
             children: [
@@ -61,7 +65,9 @@ const router = createBrowserRouter([
               { path: '/jogadores/:playerId/editar', element: <EditPlayerPage /> },
               { path: '/movimentacoes', element: <OpenMovementsPage /> },
               { path: '/desfazer', element: <UndoCenterPage /> },
+              { path: '/caixa', element: <CashRegisterPage /> },
               { path: '/equipe', element: <MembersPage /> },
+              { path: '/configuracoes', element: <SettingsPage /> },
             ],
           },
         ],

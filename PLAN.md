@@ -56,6 +56,15 @@ negativo = jogador deve ao clube):
 - Todo lançamento com dinheiro real tem `payment_method` (dinheiro, PIX, cartão, fiado…)
   e fica vinculado à sessão de caixa aberta. Fiado não entra no caixa.
 - Só pode haver um caixa aberto por clube.
+- **Decidido em 23/11/2026:**
+  - Fechamento confere **só o dinheiro físico**: esperado = abertura + entradas em dinheiro
+    - suprimentos − saídas em dinheiro (pagamentos ao jogador) − sangrias. Diferença = contado − esperado.
+      PIX e cartões aparecem como totais por forma, sem conferência.
+  - Formas de pagamento por clube: cada clube ativa/desativa e renomeia as formas; cada uma tem um
+    tipo fixo (dinheiro, PIX, débito, crédito, outro), usado nos relatórios e no fechamento.
+  - Estorno de lançamento com dinheiro entra no caixa aberto no momento do estorno (devolução hoje).
+  - Abrir, movimentar e fechar o caixa: dono, gerente e caixa. Caixa fechado não reabre (correção = novo lançamento).
+  - "Exportar PDF" = relatório imprimível (imprimir → salvar como PDF).
 
 ### Cash game
 
@@ -205,10 +214,10 @@ negativo = jogador deve ao clube):
 
 ## Fase 6 — Caixa do Dia
 
-- [ ] Migration `cash_sessions`, `cash_movements` (sangria, suprimento), `payment_methods` por clube.
-- [ ] RPCs `open_cash_session`, `withdraw`, `deposit`, `close_cash_session` (valor contado, diferença).
-- [ ] Vincular lançamentos com dinheiro real ao caixa aberto; bloquear se não houver caixa aberto (configurável).
-- [ ] Tela do caixa: saldo esperado, movimentações da sessão, histórico de sessões, exportar PDF.
+- [x] Migration `cash_sessions`, `cash_movements` (sangria, suprimento), `payment_methods` por clube.
+- [x] RPCs `open_cash_session`, `withdraw`, `deposit`, `close_cash_session` (valor contado, diferença).
+- [x] Vincular lançamentos com dinheiro real ao caixa aberto; bloquear se não houver caixa aberto (configurável).
+- [x] Tela do caixa: saldo esperado, movimentações da sessão, histórico de sessões, exportar PDF.
 
 ## Fase 7 — Cash game
 

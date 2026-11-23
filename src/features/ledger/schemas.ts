@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { parseBrlToCents } from '@/lib/money';
-import { PAYMENT_METHODS, requiresPaymentMethod } from './domain/result';
+import { requiresPaymentMethod } from './domain/result';
 
 /** Tipos que a tela de lançamento oferece (estorno tem fluxo próprio). */
 export const ENTRY_FORM_KINDS = [
@@ -26,7 +26,8 @@ export const entryFormSchema = z
       return cents;
     }),
     paidUpfront: z.boolean(),
-    paymentMethod: z.union([z.enum(PAYMENT_METHODS), z.literal('')]),
+    /** id da forma de pagamento do clube (vazio = não informado). */
+    paymentMethodId: z.string(),
     note: z
       .string()
       .trim()
@@ -39,10 +40,10 @@ export const entryFormSchema = z
     paidUpfront: (data.kind === 'buy_in' || data.kind === 'tournament_entry') && data.paidUpfront,
   }))
   .superRefine((data, ctx) => {
-    if (requiresPaymentMethod(data.kind, data.paidUpfront) && data.paymentMethod === '') {
+    if (requiresPaymentMethod(data.kind, data.paidUpfront) && data.paymentMethodId === '') {
       ctx.addIssue({
         code: 'custom',
-        path: ['paymentMethod'],
+        path: ['paymentMethodId'],
         message: 'Escolha a forma de pagamento',
       });
     }
@@ -51,9 +52,9 @@ export const entryFormSchema = z
     kind: data.kind,
     amountCents: data.amount,
     paidUpfront: data.paidUpfront,
-    paymentMethod:
-      requiresPaymentMethod(data.kind, data.paidUpfront) && data.paymentMethod !== ''
-        ? data.paymentMethod
+    paymentMethodId:
+      requiresPaymentMethod(data.kind, data.paidUpfront) && data.paymentMethodId !== ''
+        ? data.paymentMethodId
         : null,
     note: data.note,
   }));
