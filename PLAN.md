@@ -9,6 +9,7 @@ Regras de arquitetura e comandos: ver `CLAUDE.md`.
 ## Regras de negócio (extraídas do legado + referências)
 
 ### Jogador
+
 - Cadastro: nome (único no clube, sem diferenciar maiúsculas), apelido, telefone, CPF
   (único no clube quando informado), e-mail, data de nascimento, observação, ativo.
 - Inativo não aparece nas buscas de cash/torneio, mas mantém histórico. Jogador com
@@ -16,17 +17,20 @@ Regras de arquitetura e comandos: ver `CLAUDE.md`.
 - Renomear não pode quebrar o histórico (no novo modelo é automático: tudo liga por `player_id`).
 
 ### Conta do jogador (ledger unificado — cash + torneio + bar juntos)
+
 Tipos de lançamento e efeito no **resultado** (positivo = clube deve ao jogador;
 negativo = jogador deve ao clube):
-| Tipo | Origem | Efeito |
-|---|---|---|
-| `buy_in` (Entrada cash) | ficha comprada no cash | se **não pago na hora**: −valor; se pago na hora: 0 (só registra) |
-| `tournament_entry` (Registro/Rebuy/Add-on) | torneio | igual ao acima (pago na hora ou fiado) |
-| `cash_out` (Saída) | jogador devolve fichas no cash | +valor |
-| `payment_in` (Pagamento) | jogador paga o que deve | +valor (abate dívida) |
-| `payout` (prêmio/pagamento ao jogador) | clube paga o jogador | −valor (abate crédito) |
-| `bar_charge` | comanda fechada como fiado | −valor |
-| `reversal` | estorno de qualquer lançamento | inverso do original |
+
+| Tipo                                       | Origem                         | Efeito                                                            |
+| ------------------------------------------ | ------------------------------ | ----------------------------------------------------------------- |
+| `buy_in` (Entrada cash)                    | ficha comprada no cash         | se **não pago na hora**: −valor; se pago na hora: 0 (só registra) |
+| `tournament_entry` (Registro/Rebuy/Add-on) | torneio                        | igual ao acima (pago na hora ou fiado)                            |
+| `cash_out` (Saída)                         | jogador devolve fichas no cash | +valor                                                            |
+| `payment_in` (Pagamento)                   | jogador paga o que deve        | +valor (abate dívida)                                             |
+| `payout` (prêmio/pagamento ao jogador)     | clube paga o jogador           | −valor (abate crédito)                                            |
+| `bar_charge`                               | comanda fechada como fiado     | −valor                                                            |
+| `reversal`                                 | estorno de qualquer lançamento | inverso do original                                               |
+
 - Legado: resultado = Saídas − (Entradas não pagas − Pagamentos). Reproduzir e testar
   com os mesmos números antes de migrar.
 - **Sessão:** lançamentos ficam "em aberto" até "Finalizar sessão" (por jogador ou
@@ -37,6 +41,7 @@ negativo = jogador deve ao clube):
 - Pagamento pode ter **observação**. Recibo imprimível em impressora térmica 80 mm.
 
 ### Caixa do Dia (novo, do ChipControl)
+
 - Abrir caixa (valor inicial), registrar sangria (retirada) e suprimento (reforço),
   fechar caixa com valor contado → diferença.
 - Todo lançamento com dinheiro real tem `payment_method` (dinheiro, PIX, cartão, fiado…)
@@ -44,12 +49,14 @@ negativo = jogador deve ao clube):
 - Só pode haver um caixa aberto por clube.
 
 ### Cash game
+
 - Mesa com nome, botton/blinds, limite de jogadores (opcional), status aberta/encerrada.
 - Lançamentos de rake e capilé (gorjeta dos dealers) e despesas da mesa.
 - Conferência: compras − devoluções − rake − capilé = fichas na mesa; só encerra com 0
   e sem jogadores sentados.
 
 ### Torneio
+
 - Nome padrão sequencial "<Clube> #N". Status: agendado → aberto → em andamento → encerrado.
 - Encerrado: não aceita lançamentos nem mudança de configuração; o diretor **permanece**
   na tela do torneio; pode ser excluído só se não tiver lançamentos.
@@ -66,6 +73,7 @@ negativo = jogador deve ao clube):
 - Classificação final (posição) usada no ranking.
 
 ### Relógio e blinds
+
 - Estrutura de blinds: lista de níveis {sb, bb, ante, duração (min), intervalo após (min)}.
   Editor sugere o próximo nível (BB×2, SB=BB/2, ante=BB) e valida (SB<BB, crescente, sem zeros).
 - Estado no torneio: nível atual, segundos restantes, iniciado em, rodando, em intervalo,
@@ -79,6 +87,7 @@ negativo = jogador deve ao clube):
   tela cheia, layout em pé/deitado.
 
 ### Premiação
+
 - Estruturas por % de posição (ex.: 50/30/20). Valores arredondados para múltiplo
   configurável: arredonda para cima se a fração ≥ 0,6 da unidade, carregando a sobra
   para a próxima posição; a sobra final é somada à **última** posição paga
@@ -87,26 +96,31 @@ negativo = jogador deve ao clube):
   % máxima de posições pagas.
 
 ### Rake e relatórios
+
 - Rake por lançamento de torneio (`rake_cents`) e por mesa de cash; rake acumulado sempre visível.
 - Relatório do torneio: arrecadado, rake (% do arrecadado), prêmio, bounty, não pago,
   por tipo e por jogador, conferência rake + prêmio + bounty = arrecadado, PDF.
 - Relatórios do clube por período, módulo e forma de pagamento; fiado em aberto; sessões de caixa.
 
 ### Ranking (definido pelo cliente)
+
 - Pontos do torneio: `total = base + por_jogador × nº_jogadores + ajuste_manual_do_torneio`.
 - Distribuição por % da posição (configurável) + pontos de participação (opcional).
 - Ajuste manual por jogador (+/−, com motivo). Vários rankings (temporadas).
 - Desempate: pontos → vitórias → melhor colocação → nome. Pódio, tela cheia/TV, link público.
 
 ### Bar (do ChipControl)
+
 - Produtos (categoria, preço, custo, estoque, mínimo, margem), comandas por jogador;
   ao fechar: recebe no caixa ou vira fiado na conta do jogador. Baixa de estoque.
 
 ### Auditoria
+
 - Log de toda inclusão/alteração/estorno com usuário e data; filtros; "restaurar" =
   novo lançamento, nunca reescrever o passado.
 
 ### Problemas do legado que **não** devem se repetir
+
 - Nome do jogador como chave em lançamentos (CPF/telefone duplicados em cada linha).
 - `DELETE` físico para desfazer (perda de histórico).
 - Páginas HTML gigantes com lógica duplicada entre arquivos.
@@ -119,21 +133,24 @@ negativo = jogador deve ao clube):
 ---
 
 ## Fase 0 — Decisões e preparação
+
 - [x] Criar repositório novo (ex.: `poker-club-app`) e copiar `CLAUDE.md` e `PLAN.md`.
 - [ ] Criar projetos Supabase `dev` e `prod` (novos, separados do legado).
 - [ ] Levantar com o cliente os números de 3 sessões reais (cash e torneio) para usar como casos de teste.
 
 ## Fase 1 — Setup do projeto
-- [ ] Vite + React + TS strict + pnpm; aliases `@/`.
-- [ ] Tailwind + tema (tokens de cor, modo escuro) + componentes base em `components/ui` (Button, Input, Select, Modal/BottomSheet, Table, Toast, Tabs, Badge).
-- [ ] ESLint, Prettier, Husky + lint-staged.
-- [ ] Vitest + Testing Library; Playwright com 1 teste de fumaça.
-- [ ] Supabase CLI (`supabase init`), `.env.example` com `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY`.
-- [ ] `lib/supabase.ts`, `lib/money.ts` (centavos ↔ BRL), `lib/dates.ts` (fuso São Paulo).
-- [ ] CI (GitHub Actions): typecheck, lint, test, build em cada PR.
+
+- [x] Vite + React + TS strict + pnpm; aliases `@/`.
+- [x] Tailwind + tema (tokens de cor, modo escuro) + componentes base em `components/ui` (Button, Input, Select, Modal/BottomSheet, Table, Toast, Tabs, Badge).
+- [x] ESLint, Prettier, Husky + lint-staged.
+- [x] Vitest + Testing Library; Playwright com 1 teste de fumaça.
+- [x] Supabase CLI (`supabase init`), `.env.example` com `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY`.
+- [x] `lib/supabase.ts`, `lib/money.ts` (centavos ↔ BRL), `lib/dates.ts` (fuso São Paulo).
+- [x] CI (GitHub Actions): typecheck, lint, test, build em cada PR.
 - [ ] Deploy de preview automático.
 
 ## Fase 2 — Banco de dados base e multi-clube
+
 - [ ] Migration: `clubs`, `club_members (club_id, user_id, role)`, `profiles`.
 - [ ] Funções `is_club_member(club_id)`, `has_club_role(club_id, roles[])`.
 - [ ] Gatilho genérico `audit_log` (tabela, operação, antes/depois, user, club).
@@ -143,6 +160,7 @@ negativo = jogador deve ao clube):
 - [ ] Geração de tipos e teste de RLS: membro do clube A não lê dados do clube B.
 
 ## Fase 3 — Autenticação e clubes
+
 - [ ] Login/logout com e-mail e senha (Supabase Auth), recuperação de senha.
 - [ ] Criar clube (onboarding) e trocar de clube ativo.
 - [ ] Convidar membro e definir papel; tela de usuários do clube.
@@ -150,6 +168,7 @@ negativo = jogador deve ao clube):
 - [ ] 2FA opcional (TOTP do Supabase).
 
 ## Fase 4 — Jogadores
+
 - [ ] Migration `players` (+ índices únicos por clube em nome normalizado e CPF).
 - [ ] Lista com busca (nome, apelido, telefone, CPF), filtros (em jogo, devendo, crédito, inativos), ordenação, paginação.
 - [ ] Cadastro/edição com validação Zod; inativar/reativar; excluir só sem lançamentos (RPC).
@@ -158,6 +177,7 @@ negativo = jogador deve ao clube):
 - [ ] Testes de componentes e de RLS.
 
 ## Fase 5 — Conta do jogador (ledger) e sessões
+
 - [ ] Migration `ledger_entries` (player_id, kind enum, amount_cents, paid_upfront, payment_method, cash_session_id, tournament_id, table_id, session_id, reverses_id, note, created_by).
 - [ ] `player_sessions` (aberta/finalizada, finalizada em/por, reaberta).
 - [ ] `domain/result.ts`: cálculo do resultado com testes reproduzindo o legado.
@@ -168,18 +188,21 @@ negativo = jogador deve ao clube):
 - [ ] Central "Desfazer / Log": em aberto, sessões finalizadas (reabrir), log com filtros.
 
 ## Fase 6 — Caixa do Dia
+
 - [ ] Migration `cash_sessions`, `cash_movements` (sangria, suprimento), `payment_methods` por clube.
 - [ ] RPCs `open_cash_session`, `withdraw`, `deposit`, `close_cash_session` (valor contado, diferença).
 - [ ] Vincular lançamentos com dinheiro real ao caixa aberto; bloquear se não houver caixa aberto (configurável).
 - [ ] Tela do caixa: saldo esperado, movimentações da sessão, histórico de sessões, exportar PDF.
 
 ## Fase 7 — Cash game
+
 - [ ] Migration `cash_tables` (+ rake, capilé, despesas como lançamentos da mesa).
 - [ ] Abrir mesa, sentar jogador, compras/devoluções (usam o ledger), tempo de mesa.
 - [ ] Conferência de fichas e encerramento (só com 0 e sem jogadores).
 - [ ] Tela de mesa otimizada para celular.
 
 ## Fase 8 — Torneios: cadastro e inscrições
+
 - [ ] Migrations `tournaments`, `tournament_entry_types` (tipo enum, valor, rake, fichas, bounty, ativo), `tournament_entries` (ligadas ao ledger), `tournament_tables`.
 - [ ] Criar torneio em etapas (informações → tipos de entrada → blinds → premiação) com nome sequencial; perfis de configuração reaproveitáveis.
 - [ ] Inscrição/rebuy/add-on com validações (já registrado, só registrados, nível limite, máximo de rebuys, Buy-in Free sem valor).
@@ -187,6 +210,7 @@ negativo = jogador deve ao clube):
 - [ ] Encerrar (RPC) mantendo o diretor na tela; excluir só sem lançamentos.
 
 ## Fase 9 — Blinds, relógio e tela pública
+
 - [ ] Migration `blind_structures` (níveis em tabela própria `blind_levels`).
 - [ ] Editor de estrutura com sugestão automática e validação.
 - [ ] `domain/clock.ts`: restante, decorrido, próximo intervalo (testes com tempo fixo).
@@ -196,6 +220,7 @@ negativo = jogador deve ao clube):
 - [ ] Tela pública/TV por código ou link (sem login, só dados do torneio): tela cheia, layout em pé/deitado, voz opcional na troca de nível.
 
 ## Fase 10 — Premiação e classificação
+
 - [ ] `prize_structures` (percentuais) + modelos prontos.
 - [ ] `domain/prizes.ts`: arredondamento com sobra (regra do legado) — testes com casos reais.
 - [ ] Publicar premiação no timer; distribuir prêmios (lança `payout` no ledger).
@@ -203,11 +228,13 @@ negativo = jogador deve ao clube):
 - [ ] Checklist de fechamento (prêmios pagos, nada pendente, rake conferido) antes de encerrar.
 
 ## Fase 11 — Rake e relatórios
+
 - [ ] Relatório do torneio (totais, por tipo, por jogador, conferência) + PDF.
 - [ ] Relatórios do clube: por período, módulo, forma de pagamento; fiado em aberto; sessões de caixa; rake por mês.
 - [ ] Dashboard inicial: torneios ativos, mesas abertas, comandas, caixa, fiado, aniversariantes.
 
 ## Fase 12 — Ranking
+
 - [ ] Migrations `rankings`, `ranking_tournaments (ajuste)`, `ranking_adjustments`.
 - [ ] `domain/ranking.ts` com a fórmula do cliente e desempate — testes.
 - [ ] Tela de ranking: configurar (prévia de pontos), vincular torneios, ajustes, pódio, detalhe por jogador, tela cheia.
@@ -215,15 +242,18 @@ negativo = jogador deve ao clube):
 - [ ] Estatísticas do jogador (jogos, vitórias, ITM, rebuys, lucro).
 
 ## Fase 13 — Bar
+
 - [ ] Migrations `products`, `product_categories`, `bar_tabs`, `bar_tab_items`, `stock_movements`.
 - [ ] Catálogo com estoque mínimo e margem; comanda por jogador; fechar (caixa ou fiado no ledger).
 - [ ] Relatório do bar.
 
 ## Fase 14 — Implantação
+
 - [ ] Clube cadastra jogadores e saldos iniciais no sistema novo (sem migração do legado).
 - [ ] Ensaio em `dev` com o cliente, publicação em `prod`, legado desligado.
 
 ## Fase 15 — Polimento e SaaS
+
 - [ ] Testes E2E dos fluxos críticos (cash completo, torneio completo, fechamento de caixa).
 - [ ] Revisão de acessibilidade e celular (375px) em todas as telas.
 - [ ] Planos/cobrança e onboarding de novos clubes (se for vender).
