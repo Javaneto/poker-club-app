@@ -151,13 +151,13 @@ negativo = jogador deve ao clube):
 
 ## Fase 2 — Banco de dados base e multi-clube
 
-- [ ] Migration: `clubs`, `club_members (club_id, user_id, role)`, `profiles`.
-- [ ] Funções `is_club_member(club_id)`, `has_club_role(club_id, roles[])`.
-- [ ] Gatilho genérico `audit_log` (tabela, operação, antes/depois, user, club).
-- [ ] Política RLS padrão aplicada a todas as tabelas; teste pgTAP que falha se alguma tabela ficar sem RLS.
-- [ ] `club_settings` (moeda, fuso, tipos de entrada ativos, impressora, PIX).
-- [ ] Seed de desenvolvimento (1 clube, 3 usuários com papéis, 20 jogadores).
-- [ ] Geração de tipos e teste de RLS: membro do clube A não lê dados do clube B.
+- [x] Migration: `clubs`, `club_members (club_id, user_id, role)`, `profiles`.
+- [x] Funções `is_club_member(club_id)`, `has_club_role(club_id, roles[])`.
+- [x] Gatilho genérico `audit_log` (tabela, operação, antes/depois, user, club).
+- [x] Política RLS padrão aplicada a todas as tabelas; teste pgTAP que falha se alguma tabela ficar sem RLS.
+- [x] `club_settings` (moeda, fuso, tipos de entrada ativos, impressora, PIX).
+- [x] Seed de desenvolvimento (1 clube, 3 usuários com papéis). Os 20 jogadores entram no seed da Fase 4, junto com a tabela `players`.
+- [x] Geração de tipos e teste de RLS: membro do clube A não lê dados do clube B.
 
 ## Fase 3 — Autenticação e clubes
 
