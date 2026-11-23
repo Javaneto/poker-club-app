@@ -74,6 +74,9 @@ describe('regras auxiliares', () => {
   it('formata blinds', () => {
     expect(formatBlinds(100, 200, formatCents)).toBe('R$ 1/2');
     expect(formatBlinds(250, 500, formatCents)).toBe('R$ 2,50/5');
+    expect(formatBlinds(null, 500, formatCents)).toBe('BB R$ 5');
+    expect(formatBlinds(100, null, formatCents)).toBe('SB R$ 1');
+    expect(formatBlinds(null, null, formatCents)).toBeNull();
   });
 
   it('valida tipo de lançamento da mesa', () => {
