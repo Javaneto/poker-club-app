@@ -147,7 +147,7 @@ negativo = jogador deve ao clube):
 - [x] Supabase CLI (`supabase init`), `.env.example` com `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY`.
 - [x] `lib/supabase.ts`, `lib/money.ts` (centavos ↔ BRL), `lib/dates.ts` (fuso São Paulo).
 - [x] CI (GitHub Actions): typecheck, lint, test, build em cada PR.
-- [ ] Deploy de preview automático.
+- [x] Deploy de preview automático.
 
 ## Fase 2 — Banco de dados base e multi-clube
 
