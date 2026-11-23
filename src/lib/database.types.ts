@@ -89,6 +89,96 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"cash_table_entries": {
+                  Row: {
+                    "amount_cents": number,"club_id": string,"created_at": string,"created_by": string | null,"id": string,"kind": Database["public"]['Enums']["cash_table_entry_kind"],"note": string | null,"reverses_id": string | null,"table_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "amount_cents": number,"club_id": string,"created_at"?: string,"created_by"?: string | null,"id"?: string,"kind": Database["public"]['Enums']["cash_table_entry_kind"],"note"?: string | null,"reverses_id"?: string | null,"table_id": string
+                  }
+                  Update: {
+                    "amount_cents"?: number,"club_id"?: string,"created_at"?: string,"created_by"?: string | null,"id"?: string,"kind"?: Database["public"]['Enums']["cash_table_entry_kind"],"note"?: string | null,"reverses_id"?: string | null,"table_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "cash_table_entries_club_id_fkey"
+      columns: ["club_id"]
+isOneToOne: false
+      referencedRelation: "clubs"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "cash_table_entries_reverses_id_fkey"
+      columns: ["reverses_id"]
+isOneToOne: true
+      referencedRelation: "cash_table_entries"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "cash_table_entries_table_id_fkey"
+      columns: ["table_id"]
+isOneToOne: false
+      referencedRelation: "cash_tables"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"cash_table_seats": {
+                  Row: {
+                    "club_id": string,"id": string,"left_at": string | null,"left_by": string | null,"player_id": string,"seated_at": string,"seated_by": string | null,"table_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "club_id": string,"id"?: string,"left_at"?: string | null,"left_by"?: string | null,"player_id": string,"seated_at"?: string,"seated_by"?: string | null,"table_id": string
+                  }
+                  Update: {
+                    "club_id"?: string,"id"?: string,"left_at"?: string | null,"left_by"?: string | null,"player_id"?: string,"seated_at"?: string,"seated_by"?: string | null,"table_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "cash_table_seats_club_id_fkey"
+      columns: ["club_id"]
+isOneToOne: false
+      referencedRelation: "clubs"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "cash_table_seats_player_id_fkey"
+      columns: ["player_id"]
+isOneToOne: false
+      referencedRelation: "player_overview"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "cash_table_seats_player_id_fkey"
+      columns: ["player_id"]
+isOneToOne: false
+      referencedRelation: "players"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "cash_table_seats_table_id_fkey"
+      columns: ["table_id"]
+isOneToOne: false
+      referencedRelation: "cash_tables"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"cash_tables": {
+                  Row: {
+                    "big_blind_cents": number,"closed_at": string | null,"closed_by": string | null,"closing_note": string | null,"club_id": string,"id": string,"max_players": number | null,"name": string,"note": string | null,"opened_at": string,"opened_by": string | null,"small_blind_cents": number,"status": Database["public"]['Enums']["cash_table_status"]
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "big_blind_cents": number,"closed_at"?: string | null,"closed_by"?: string | null,"closing_note"?: string | null,"club_id": string,"id"?: string,"max_players"?: number | null,"name": string,"note"?: string | null,"opened_at"?: string,"opened_by"?: string | null,"small_blind_cents": number,"status"?: Database["public"]['Enums']["cash_table_status"]
+                  }
+                  Update: {
+                    "big_blind_cents"?: number,"closed_at"?: string | null,"closed_by"?: string | null,"closing_note"?: string | null,"club_id"?: string,"id"?: string,"max_players"?: number | null,"name"?: string,"note"?: string | null,"opened_at"?: string,"opened_by"?: string | null,"small_blind_cents"?: number,"status"?: Database["public"]['Enums']["cash_table_status"]
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "cash_tables_club_id_fkey"
+      columns: ["club_id"]
+isOneToOne: false
+      referencedRelation: "clubs"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"club_invitations": {
                   Row: {
                     "accepted_at": string | null,"accepted_by": string | null,"club_id": string,"created_at": string,"email": string,"expires_at": string,"id": string,"invited_by": string | null,"revoked_at": string | null,"role": Database["public"]['Enums']["club_role"],"token": string
@@ -223,6 +313,12 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "player_sessions"
       referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ledger_entries_table_fkey"
+      columns: ["table_id"]
+isOneToOne: false
+      referencedRelation: "cash_tables"
+      referencedColumns: ["id"]
     }
                   ]
                 },"payment_methods": {
@@ -314,7 +410,15 @@ isOneToOne: false
                 }
           }
           Views: {
-            "player_overview": {
+            "cash_table_activity": {
+                  Row: {
+                    "amount_cents": number | null,"club_id": string | null,"created_at": string | null,"id": string | null,"is_reversed": boolean | null,"kind": string | null,"method_name": string | null,"note": string | null,"paid_upfront": boolean | null,"player_id": string | null,"player_name": string | null,"reversed_kind": string | null,"reverses_id": string | null,"source": string | null,"table_id": string | null
+                  }
+                  ComputedFields: never
+                  Relationships: [
+                    
+                  ]
+                },"player_overview": {
                   Row: {
                     "active": boolean,"balance_cents": number | null,"birth_date": string | null,"club_id": string,"cpf": string | null,"created_at": string,"email": string | null,"full_name": string,"id": string,"nickname": string | null,"normalized_name": string | null,"notes": string | null,"open_result_cents": number | null,"open_session_id": string | null,"phone": string | null,"search_text": string | null
                   }
@@ -340,8 +444,14 @@ isOneToOne: false
 "can_operate_cash":
 { Args: { "target_club_id": string }; Returns: boolean
                            },
+"can_operate_cash_game":
+{ Args: { "target_club_id": string }; Returns: boolean
+                           },
 "can_operate_ledger":
 { Args: { "target_club_id": string }; Returns: boolean
+                           },
+"cash_game_require_operator":
+{ Args: { "target_club_id": string }; Returns: undefined
                            },
 "cash_register_movement":
 { Args: { "amount_cents": number,"movement_kind": Database["public"]['Enums']["cash_movement_kind"],"movement_note": string,"target_session_id": string }; Returns: string
@@ -360,11 +470,55 @@ isOneToOne: false
               "by_method": Json,"cash_in_cents": number,"cash_out_cents": number,"deposits_cents": number,"expected_cash_cents": number,"opening_cents": number,"withdrawals_cents": number
             }[]
                            },
+"cash_table_chips":
+{ Args: { "target_table_id": string }; Returns: number
+                           },
+"cash_table_lock_open":
+{ Args: { "target_table_id": string }; Returns: {
+              "big_blind_cents": number,
+"closed_at": string | null,
+"closed_by": string | null,
+"closing_note": string | null,
+"club_id": string,
+"id": string,
+"max_players": number | null,
+"name": string,
+"note": string | null,
+"opened_at": string,
+"opened_by": string | null,
+"small_blind_cents": number,
+"status": Database["public"]['Enums']["cash_table_status"]
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "cash_tables"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
+"cash_table_lock_player":
+{ Args: { "require_active": boolean,"target": Omit<Database["public"]['Tables']["cash_tables"]['Row'], Database["public"]['Tables']["cash_tables"]['ComputedFields']>,"target_player_id": string }; Returns: undefined
+                           },
+"cash_table_players":
+{ Args: { "target_table_id": string }; Returns: {
+              "buy_in_cents": number,"cash_out_cents": number,"completed_seconds": number,"first_seated_at": string,"full_name": string,"nickname": string,"player_id": string,"seat_id": string,"seated_at": string
+            }[]
+                           },
+"cash_table_require_seated":
+{ Args: { "target_player_id": string,"target_table_id": string }; Returns: undefined
+                           },
+"cash_table_summary":
+{ Args: { "target_table_id": string }; Returns: {
+              "chips_cents": number,"expenses_cents": number,"purchases_cents": number,"rake_cents": number,"returns_cents": number,"seated_count": number,"tips_cents": number
+            }[]
+                           },
 "close_all_sessions":
 { Args: { "target_club_id": string }; Returns: number
                            },
 "close_cash_session":
 { Args: { "counted_cents": number,"note"?: string,"target_session_id": string }; Returns: number
+                           },
+"close_cash_table":
+{ Args: { "closing_note"?: string,"target_table_id": string }; Returns: undefined
                            },
 "close_player_session":
 { Args: { "target_session_id": string }; Returns: number
@@ -421,6 +575,9 @@ isOneToOne: false
 "ledger_effect":
 { Args: { "amount": number,"entry_kind": Database["public"]['Enums']["ledger_entry_kind"],"paid": boolean,"reversed_effect"?: number }; Returns: number
                            },
+"ledger_insert_game_entry":
+{ Args: { "amount_cents": number,"entry_kind": Database["public"]['Enums']["ledger_entry_kind"],"entry_note": string,"method_id": string,"paid_upfront": boolean,"target_club_id": string,"target_player_id": string,"target_table_id": string,"target_tournament_id": string }; Returns: string
+                           },
 "ledger_lock_player":
 { Args: { "require_active": boolean,"target_player_id": string }; Returns: string
                            },
@@ -441,6 +598,9 @@ isOneToOne: false
 "open_cash_session":
 { Args: { "opening_cents": number,"target_club_id": string }; Returns: string
                            },
+"open_cash_table":
+{ Args: { "big_blind_cents": number,"max_players"?: number,"small_blind_cents": number,"table_name": string,"table_note"?: string,"target_club_id": string }; Returns: string
+                           },
 "record_cash_out":
 { Args: { "amount_cents": number,"entry_note"?: string,"target_player_id": string,"target_table_id"?: string }; Returns: string
                            },
@@ -449,6 +609,9 @@ isOneToOne: false
                            },
 "record_payment":
 { Args: { "amount_cents": number,"entry_kind": Database["public"]['Enums']["ledger_entry_kind"],"entry_note"?: string,"method_id": string,"target_player_id": string }; Returns: string
+                           },
+"record_table_entry":
+{ Args: { "amount_cents": number,"entry_kind": Database["public"]['Enums']["cash_table_entry_kind"],"entry_note"?: string,"target_table_id": string }; Returns: string
                            },
 "remove_club_member":
 { Args: { "target_club_id": string,"target_user_id": string }; Returns: undefined
@@ -462,11 +625,26 @@ isOneToOne: false
 "reverse_entry":
 { Args: { "entry_note"?: string,"target_entry_id": string }; Returns: string
                            },
+"reverse_table_entry":
+{ Args: { "entry_note"?: string,"target_entry_id": string }; Returns: string
+                           },
 "reversed_by_id":
 { Args: { "entry": Omit<Database["public"]['Tables']["ledger_entries"]['Row'], Database["public"]['Tables']["ledger_entries"]['ComputedFields']> }; Returns: string
                            },
 "revoke_club_invitation":
 { Args: { "invitation_id": string }; Returns: undefined
+                           },
+"seat_player":
+{ Args: { "buy_in_cents"?: number,"entry_note"?: string,"method_id"?: string,"paid_upfront"?: boolean,"target_player_id": string,"target_table_id": string }; Returns: string
+                           },
+"table_buy_in":
+{ Args: { "amount_cents": number,"entry_note"?: string,"method_id"?: string,"paid_upfront"?: boolean,"target_player_id": string,"target_table_id": string }; Returns: string
+                           },
+"table_cash_out":
+{ Args: { "amount_cents": number,"entry_note"?: string,"leave_table"?: boolean,"target_player_id": string,"target_table_id": string }; Returns: string
+                           },
+"unseat_player":
+{ Args: { "target_seat_id": string }; Returns: undefined
                            },
 "upcoming_birthdays":
 { Args: { "days_ahead"?: number,"reference_date"?: string,"target_club_id": string }; Returns: {
@@ -481,7 +659,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "cash_movement_kind": "withdrawal"|"deposit","cash_session_status": "open"|"closed","club_role": "owner"|"manager"|"cashier"|"director"|"dealer"|"waiter","ledger_entry_kind": "buy_in"|"tournament_entry"|"cash_out"|"payment_in"|"payout"|"bar_charge"|"reversal","payment_method": "cash"|"pix"|"debit_card"|"credit_card"|"other","player_session_status": "open"|"closed"
+            "cash_movement_kind": "withdrawal"|"deposit","cash_session_status": "open"|"closed","cash_table_entry_kind": "rake"|"tip"|"expense","cash_table_status": "open"|"closed","club_role": "owner"|"manager"|"cashier"|"director"|"dealer"|"waiter","ledger_entry_kind": "buy_in"|"tournament_entry"|"cash_out"|"payment_in"|"payout"|"bar_charge"|"reversal","payment_method": "cash"|"pix"|"debit_card"|"credit_card"|"other","player_session_status": "open"|"closed"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -601,7 +779,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "cash_movement_kind": ["withdrawal", "deposit"],"cash_session_status": ["open", "closed"],"club_role": ["owner", "manager", "cashier", "director", "dealer", "waiter"],"ledger_entry_kind": ["buy_in", "tournament_entry", "cash_out", "payment_in", "payout", "bar_charge", "reversal"],"payment_method": ["cash", "pix", "debit_card", "credit_card", "other"],"player_session_status": ["open", "closed"]
+            "cash_movement_kind": ["withdrawal", "deposit"],"cash_session_status": ["open", "closed"],"cash_table_entry_kind": ["rake", "tip", "expense"],"cash_table_status": ["open", "closed"],"club_role": ["owner", "manager", "cashier", "director", "dealer", "waiter"],"ledger_entry_kind": ["buy_in", "tournament_entry", "cash_out", "payment_in", "payout", "bar_charge", "reversal"],"payment_method": ["cash", "pix", "debit_card", "credit_card", "other"],"player_session_status": ["open", "closed"]
           }
         }
 } as const
